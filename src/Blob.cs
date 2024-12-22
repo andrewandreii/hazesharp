@@ -55,12 +55,6 @@ public partial class Blob : CharacterBody2D
 	{
 		Vector2 velocity = Velocity;
 
-		if (IsOnWall())
-		{
-			GD.Print(velocity.X);
-			GD.Print("wah");
-		}
-
 		if (!IsOnFloor())
 		{
 			velocity += GetGravity() * (float)delta * (velocity.Y > 0 ? 1.3f : 1.0f);

@@ -51,7 +51,6 @@ public partial class SimplePassthroughWall : StaticBody2D, IPassthrough
 	public override void _Ready()
 	{
 		Size = size;
-		GD.Print(Size);
 	}
 
 	public override void _Process(double delta)

@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=4 uid="uid://1hoii7kd1l0d"]
+
+[ext_resource type="Script" uid="uid://cnbjm0peke3gl" path="res://src/Level.cs" id="1_7l0we"]
+[ext_resource type="TileSet" uid="uid://cur4tgo52dkym" path="res://scenes/levels/basic_tileset.tres" id="2_xd5ii"]
+[ext_resource type="PackedScene" uid="uid://dvi87uyartvjv" path="res://scenes/door.tscn" id="3_7lqio"]
+
+[node name="Level2" type="Node2D"]
+script = ExtResource("1_7l0we")
+
+[node name="Basic" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD5/wYAAAABAAAAAAD6/wYAAAABAAAAAAD7/wYAAAABAAAAAAD8/wYAAAABAAAAAAD9/wYAAAABAAAAAAD+/wYAAAABAAAAAAD//wYAAAABAAAAAAAAAAYAAAABAAAAAAABAAYAAAABAAAAAAACAAYAAAABAAAAAAADAAYAAAABAAAAAAAEAAYAAAABAAAAAAAFAAYAAAABAAAAAAAGAAYAAAABAAAAAAAHAAYAAAABAAAAAAAIAAYAAAABAAAAAAAAAPz/AAABAAEAAAABAPz/AAABAAEAAAAJAAYAAAABAAAAAAAKAAYAAAABAAAAAAALAAYAAAABAAAAAAAMAAYAAAABAAAAAAANAAYAAAABAAAAAAAOAAYAAAABAAAAAAAPAAYAAAABAAAAAAAQAAYAAAABAAAAAAARAAYAAAABAAAAAAASAAYAAAABAAAAAAASAAUAAAABAAAAAAATAAUAAAABAAAAAAAUAAUAAAABAAAAAAAUAAYAAAABAAAAAAAVAAYAAAABAAAAAAAWAAYAAAABAAAAAAAXAAYAAAABAAAAAAAYAAYAAAABAAAAAAAYAAEAAAABAAEAAAAYAAIAAAABAAEAAAD4/wEAAAABAAEAAAD4/wIAAAABAAEAAAD5/wIAAAABAAEAAAAAAPv/AAABAAEAAAABAPv/AAABAAEAAAA=")
+tile_set = ExtResource("2_xd5ii")
+
+[node name="Doors" type="Node2D" parent="."]
+
+[node name="Door2" parent="Doors" instance=ExtResource("3_7lqio")]
+position = Vector2(-2, 69)
+levelName = "res://scenes/levels/level_1.tscn"
+ForceIsVertical = false
+enterDirection = Vector2(1, 0)
+collisionSize = Vector2(20, 50)
+CollisionSize = Vector2(20, 50)
+metadata/_edit_pinned_properties_ = [&"CollisionSize"]
