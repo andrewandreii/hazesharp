@@ -55,7 +55,7 @@ public partial class BlobCam : Node2D
 
 		Vector2 viewportTranslate = pos + offset - viewportSize / 2;
 		viewportTranslate = viewportTranslate.Clamp(minLimit, maxLimit);
-		GD.Print(viewportTranslate, minLimit, maxLimit);
+		/*GD.Print(viewportTranslate, minLimit, maxLimit);*/
 
 		Transform2D canvasTransform = Transform2D.Identity;
 		canvasTransform = canvasTransform.Translated(-viewportTranslate);

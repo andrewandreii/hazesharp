@@ -43,6 +43,6 @@ public partial class Level : Node2D
 		Door door = doors[door_num];
 		Vector2 entryPoint = door.getEntryPoint();
 
-		return (entryPoint + new Vector2(-object_width / 2, 0), entryPoint + new Vector2(object_width / 2, 0));
+		return (entryPoint, -door.EnterDirection);
 	}
 }

@@ -1,17 +1,29 @@
 using Godot;
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Linq;
 
 [Tool]
 public partial class Door : Area2D
 {
 	[Signal]
-	public delegate void PlayerTransitionToEventHandler(String levelName, int doorId);
+	public delegate void PlayerTransitionToEventHandler(String levelPath, int doorId);
 
+	private string levelPath;
 	[Export(PropertyHint.File, "*.tscn,")]
-	public String levelName;
+	public String LevelPath
+	{
+		get => levelPath;
+		set
+		{
+			levelPath = value;
+			_GetConfigurationWarnings();
+		}
+	}
+
 	[Export]
-	public int doorId;
+	public int doorId = 0;
 
 	[Export]
 	public bool ForceIsVertical
@@ -27,8 +39,17 @@ public partial class Door : Area2D
 	public bool forceIsVertical = false;
 	public bool isVertical;
 
+	private Vector2 enterDirection;
 	[Export]
-	public Vector2 enterDirection;
+	public Vector2 EnterDirection
+	{
+		get => enterDirection;
+		set
+		{
+			enterDirection = value;
+			_GetConfigurationWarnings();
+		}
+	}
 
 	// FIXME: this shouldn't be exported, but Godot doesn't update the value otherwise
 	[Export]
@@ -54,6 +75,8 @@ public partial class Door : Area2D
 			{
 				collision.Shape = newShape;
 			}
+
+			_GetConfigurationWarnings();
 		}
 	}
 
@@ -99,6 +122,26 @@ public partial class Door : Area2D
 	/*	return false;*/
 	/*}*/
 
+	public override string[] _GetConfigurationWarnings()
+	{
+		var warnings = new Godot.Collections.Array<string>();
+
+		isVertical = collisionSize.X < collisionSize.Y;
+
+		if (!((isVertical && (enterDirection == Vector2.Right || enterDirection == Vector2.Left)) || (!isVertical && (enterDirection == Vector2.Up || enterDirection == Vector2.Down))))
+		{
+			warnings.Add("Direction of entry and the type of door don\'t match.");
+		}
+
+		if (levelPath is null || levelPath.Length == 0)
+		{
+			GD.Print("hey");
+			warnings.Add("Level path cannot be empty.");
+		}
+
+		return warnings.ToArray();
+	}
+
 	public override void _Ready()
 	{
 		if (Engine.IsEditorHint())
@@ -115,8 +158,6 @@ public partial class Door : Area2D
 			isVertical = forceIsVertical;
 		}
 
-		Debug.Assert((isVertical && (enterDirection == Vector2.Right || enterDirection == Vector2.Left)) || (!isVertical || (enterDirection == Vector2.Up || enterDirection == Vector2.Down)));
-
 		BodyEntered += onBodyEntered;
 	}
 
@@ -130,7 +171,7 @@ public partial class Door : Area2D
 		Vector2 halfSize = collisionSize / 2;
 		if (isVertical)
 		{
-			if (enterDirection == Vector2.Right)
+			if (EnterDirection == Vector2.Right)
 			{
 				// Bottom-right
 				return GlobalPosition + halfSize;
@@ -140,7 +181,7 @@ public partial class Door : Area2D
 			return GlobalPosition + new Vector2(-halfSize.X, halfSize.Y);
 		}
 
-		if (enterDirection == Vector2.Up)
+		if (EnterDirection == Vector2.Up)
 		{
 			// Top-middle
 			return GlobalPosition + new Vector2(-halfSize.X, 0);
@@ -157,7 +198,7 @@ public partial class Door : Area2D
 		GD.Print($"\tdetected by {Name}");
 		if (body is Blob blob)
 		{
-			EmitSignal(SignalName.PlayerTransitionTo, levelName, doorId);
+			EmitSignal(SignalName.PlayerTransitionTo, LevelPath, doorId);
 		}
 		else
 		{

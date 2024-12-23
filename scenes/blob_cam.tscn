@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bh6cp36e0aiwd"]
 
-[ext_resource type="Script" uid="uid://cj2ororhed5ae" path="res://src/BlobCam.cs" id="1_37p7m"]
+[ext_resource type="Script" uid="uid://cl7fvaselcfnc" path="res://src/BlobCam.cs" id="1_37p7m"]
 
 [node name="BlobCam" type="Node2D"]
 script = ExtResource("1_37p7m")

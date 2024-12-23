@@ -46,10 +46,10 @@ public partial class World : Node2D
 
 		current_level.Ready += () =>
 		{
-			Vector2 start, end;
-			(start, end) = current_level.getRoomEnterWalk(doorId, 16);
-			GD.Print($"player from {start} to {end}");
-			blob.Position = end;
+			Vector2 start, direction;
+			(start, direction) = current_level.getRoomEnterWalk(doorId, 16);
+			GD.Print($"player from {start} to {direction}");
+			blob.Position = start + 17 * direction;
 			setCameraLimits();
 		};
 
