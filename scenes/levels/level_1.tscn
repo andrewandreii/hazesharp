@@ -21,7 +21,7 @@ tile_set = ExtResource("3_g772t")
 [node name="Door" parent="Doors" instance=ExtResource("3_kr4v0")]
 position = Vector2(-43, 160)
 LevelPath = "uid://1hoii7kd1l0d"
-EnterDirection = Vector2(1, 0)
+EnterDirection = Vector2(-1, 0)
 collisionSize = Vector2(20, 32)
 CollisionSize = Vector2(20, 32)
 

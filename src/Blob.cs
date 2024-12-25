@@ -9,8 +9,43 @@ public partial class Blob : CharacterBody2D
 	public const float MaxSpeed = 400.0f;
 	public const float MaxFallSpeed = 400.0f;
 
-	public float allowed_speed = MaxNormalSpeed;
-	public float speed_buff = 1.0f;
+	public bool isDrilling = false;
+	public float drillGravityBoost = 1.4f;
+	public float allowedSpeed = MaxNormalSpeed;
+	public float speedBuff = 1.0f;
+	public enum WalkType
+	{
+		Normal, Boosted, Slow
+	};
+	public WalkType currentWalk = WalkType.Normal;
+	public WalkType CurrentWalk
+	{
+		get => currentWalk;
+		set
+		{
+			if (currentWalk == value)
+			{
+				return;
+			}
+
+			switch (value)
+			{
+				case WalkType.Normal:
+					allowedSpeed = MaxNormalSpeed;
+					speedBuff = 1.0f;
+					if (IsOnFloor()) anim.Play("walk");
+					break;
+				case WalkType.Boosted:
+					allowedSpeed = MaxSpeed;
+					speedBuff = 1.1f;
+					if (IsOnFloor()) anim.Play("fast_walk");
+					break;
+				case WalkType.Slow:
+					break;
+			}
+			currentWalk = value;
+		}
+	}
 
 	public AnimationPlayer anim;
 	public Sprite2D sprite;
@@ -36,8 +71,7 @@ public partial class Blob : CharacterBody2D
 				if (obj is IPassthrough pobj)
 				{
 					Position = pobj.teleportFrom(Position);
-					allowed_speed = MaxSpeed;
-					speed_buff = 1.1f;
+					currentWalk = WalkType.Boosted;
 				}
 			}
 		}
@@ -57,54 +91,82 @@ public partial class Blob : CharacterBody2D
 
 		if (!IsOnFloor())
 		{
-			velocity += GetGravity() * (float)delta * (velocity.Y > 0 ? 1.3f : 1.0f);
+			velocity += GetGravity() * (float)delta * (velocity.Y > 0 ? 1.3f : 1.0f) * (isDrilling ? drillGravityBoost : 1.0f);
 			if (velocity.Y > MaxFallSpeed)
 			{
 				velocity.Y = MaxFallSpeed;
 			}
-			if (velocity.Y > 0 && !anim.CurrentAnimation.Equals("fall"))
-			{
-				anim.Play("fall");
-			}
-		}
 
-		if (Input.IsActionJustPressed("jump") && IsOnFloor())
-		{
-			anim.Play("jump");
-			velocity.Y = JumpVelocity;
-		}
-
-		float direction = Input.GetAxis("left", "right");
-		if (direction != 0.0f)
-		{
-			velocity.X += direction * Speed * speed_buff;
-			velocity.X = Mathf.Clamp(velocity.X, -allowed_speed, allowed_speed);
-			velocity.X *= !IsOnFloor() ? 1.1f : 1.0f;
-			sprite.FlipH = direction < 0;
-			if (!anim.CurrentAnimation.Equals("walk") && IsOnFloor() && velocity.Y == 0)
+			if (Input.IsActionPressed("down"))
 			{
-				if (Math.Abs(velocity.X) > MaxNormalSpeed)
+				if (!isDrilling)
 				{
-					anim.Play("fast_walk");
+					/*anim.Play("attack");*/
+					anim.Play("attack_loop");
 				}
-				else
+				isDrilling = true;
+			}
+			else
+			{
+				isDrilling = false;
+			}
+
+			if (velocity.Y > 0)
+			{
+				if (!isDrilling)
 				{
-					anim.Play("walk");
+					anim.Play("fall");
 				}
 			}
 		}
 		else
 		{
-			allowed_speed = MaxNormalSpeed;
-			speed_buff = 1.0f;
+			isDrilling = false;
+		}
+
+		float direction = Input.GetAxis("left", "right");
+		if (direction != 0.0f)
+		{
+			velocity.X += direction * Speed * speedBuff;
+			velocity.X = Mathf.Clamp(velocity.X, -allowedSpeed, allowedSpeed);
+			velocity.X *= !IsOnFloor() ? 1.1f : 1.0f;
+			sprite.FlipH = direction < 0;
+			if (IsOnFloor())
+			{
+				if (CurrentWalk == WalkType.Normal)
+				{
+					anim.Play("walk");
+				}
+				else if (CurrentWalk == WalkType.Boosted)
+				{
+					anim.Play("fast_walk");
+				}
+			}
+		}
+		else
+		{
+			currentWalk = WalkType.Normal;
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
-			if (!anim.CurrentAnimation.Equals("idle") && IsOnFloor() && velocity.Y == 0)
+			if (velocity == Vector2.Zero)
 			{
 				anim.Play("idle");
 			}
 		}
 
+		if (IsOnFloor())
+		{
+			if (Input.IsActionJustPressed("jump"))
+			{
+				velocity.Y = JumpVelocity;
+				anim.Play("jump");
+			}
+		}
+
 		Velocity = velocity;
 		MoveAndSlide();
+	}
+
+	public void onDrillHitTarget(Node2D body)
+	{
 	}
 }
