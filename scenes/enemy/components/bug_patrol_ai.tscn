@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsynrpsfqqfim"]
+
+[ext_resource type="Script" uid="uid://cch5rmrf1shae" path="res://src/enemy/components/BugPatrolAI.cs" id="1_81p1l"]
+
+[node name="BugPatrolAI" type="Node2D"]
+script = ExtResource("1_81p1l")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(-11, -6)
+target_position = Vector2(0, 8)
+collision_mask = 2

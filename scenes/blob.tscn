@@ -574,4 +574,4 @@ target_position = Vector2(30, 0)
 position = Vector2(0, -2)
 target_position = Vector2(-30, 0)
 
-[connection signal="body_entered" from="DrillHitbox" to="." method="onDrillHitTarget"]
+[connection signal="area_entered" from="DrillHitbox" to="." method="onDrillHitTarget"]

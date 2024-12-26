@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://buf63ypxi3ppy"]
+
+[ext_resource type="Script" uid="uid://b4l8js6bo8xh8" path="res://src/enemy/components/CheckPitfallComp.cs" id="1_er3cy"]
+
+[node name="CheckPitfallComp" type="RayCast2D"]
+position = Vector2(-15, -5)
+target_position = Vector2(0, 8)
+collision_mask = 2
+script = ExtResource("1_er3cy")
