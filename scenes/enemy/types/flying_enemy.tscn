@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpuhj5vaac4nk"]
+
+[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_a36pg"]
+[ext_resource type="PackedScene" uid="uid://dqybkys7wlf4j" path="res://scenes/enemy/components/flying_enemy_ai.tscn" id="2_rrapv"]
+
+[node name="Enemy" instance=ExtResource("1_a36pg")]
+enemyType = 4
+animationFrameCountTo = 2
+
+[node name="FlyingEnemyAI" parent="." index="2" instance=ExtResource("2_rrapv")]

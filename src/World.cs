@@ -6,7 +6,7 @@ public partial class World : Node2D
 	[Export(PropertyHint.File, "*.tscn,")]
 	public String levelPath;
 
-	public Level current_level;
+	public Level currentLevel;
 	public Blob blob;
 	public BlobCam blobCam;
 
@@ -33,21 +33,21 @@ public partial class World : Node2D
 
 		Level new_level = createLevel(levelName);
 		new_level.init(roomChanged);
-		current_level.QueueFree();
+		currentLevel.QueueFree();
 
-		current_level = new_level;
-		current_level.Show();
+		currentLevel = new_level;
+		currentLevel.Show();
 		blob.Show();
 
-		CallDeferred("add_child", current_level);
+		CallDeferred("add_child", currentLevel);
 
 		var timer = GetTree().CreateTimer(0.1);
 		timer.Timeout += () => state = WorldState.Normal;
 
-		current_level.Ready += () =>
+		currentLevel.Ready += () =>
 		{
 			Vector2 start, direction;
-			(start, direction) = current_level.getRoomEnterWalk(doorId, 16);
+			(start, direction) = currentLevel.getRoomEnterWalk(doorId, 16);
 			GD.Print($"player from {start} to {direction}");
 			blob.Position = start + 17 * direction;
 			setCameraLimits();
@@ -58,11 +58,11 @@ public partial class World : Node2D
 
 	public override void _Ready()
 	{
-		current_level = createLevel(levelPath);
-		current_level.init(roomChanged);
-		AddChild(current_level);
-		current_level.Show();
-		current_level.Ready += () => { setCameraLimits(); };
+		currentLevel = createLevel(levelPath);
+		currentLevel.init(roomChanged);
+		AddChild(currentLevel);
+		currentLevel.Show();
+		currentLevel.Ready += () => { setCameraLimits(); };
 
 		blob = GetNode<Blob>("Blob");
 		blobCam = GetNode<BlobCam>("BlobCam");
@@ -76,9 +76,19 @@ public partial class World : Node2D
 
 	void setCameraLimits()
 	{
-		blobCam.MinLimit = current_level.levelRect.Position * 16;
-		blobCam.MaxLimit = (current_level.levelRect.Position + current_level.levelRect.Size) * 16;
+		blobCam.MinLimit = currentLevel.levelRect.Position * 16;
+		blobCam.MaxLimit = (currentLevel.levelRect.Position + currentLevel.levelRect.Size) * 16;
 
 		GD.Print(blobCam.MinLimit, blobCam.MaxLimit);
+	}
+
+	public TileMapLayer getBasicTilemap()
+	{
+		return currentLevel.GetNode<TileMapLayer>("Basic");
+	}
+
+	public Blob getBlob()
+	{
+		return blob;
 	}
 }

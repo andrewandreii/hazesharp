@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://cphut3r52unw6"]
 
-[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/small_enemy.tscn" id="1_exlen"]
+[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_exlen"]
 [ext_resource type="PackedScene" uid="uid://dsynrpsfqqfim" path="res://scenes/enemy/components/bug_patrol_ai.tscn" id="2_rj7ft"]
 
-[node name="SmallEnemy" instance=ExtResource("1_exlen")]
+[node name="SmallBugEnemy" instance=ExtResource("1_exlen")]
 
 [node name="BugPatrolAI" parent="." index="2" instance=ExtResource("2_rj7ft")]

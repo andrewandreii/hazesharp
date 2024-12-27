@@ -19,6 +19,10 @@ public partial class Enemy : Area2D
 	[Export]
 	public int enemyType = 0;
 
+	[Export]
+	public int animationFrameCountTo = 7;
+	int frameTimer = 0;
+
 	public enum AnimationSpriteSheet
 	{
 		Idle, Moving, Attacking
@@ -38,7 +42,6 @@ public partial class Enemy : Area2D
 		}
 	}
 
-	int frameTimer = 0;
 	public override void _PhysicsProcess(double delta)
 	{
 		Position = enemyAI.ai(delta);
@@ -52,11 +55,11 @@ public partial class Enemy : Area2D
 		if (enemyAI.State != IAI.AIState.Idle)
 		{
 			sprite.FlipH = enemyAI.getDirection().X > 0;
-			toPlayAnimation = AnimationSpriteSheet.Moving;
+			toPlayAnimation = enemyAI.State == IAI.AIState.Attacking ? AnimationSpriteSheet.Attacking : AnimationSpriteSheet.Moving;
 		}
 
 		++frameTimer;
-		if (frameTimer > 7)
+		if (frameTimer > animationFrameCountTo)
 		{
 			frameTimer = 0;
 			playAnimation(toPlayAnimation);
