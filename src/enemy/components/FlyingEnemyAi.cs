@@ -59,15 +59,16 @@ public partial class FlyingEnemyAi : Node2D, IAI
 		if (tilemap.GetCellTileData(tilemap.LocalToMap(targetPosition)) is not null)
 		{
 			targetPosition = lastValidTargetPosition;
+			state = IAI.AIState.Idle;
 		}
 		else
 		{
+			state = IAI.AIState.Attacking;
 			lastValidTargetPosition = targetPosition;
 		}
 
 		if (Mathf.Abs(GlobalPosition.X - targetPosition.X) < 2 && Mathf.Abs(GlobalPosition.Y - targetPosition.Y) < 30)
 		{
-			state = IAI.AIState.Attacking;
 			return GlobalPosition + offset;
 		}
 

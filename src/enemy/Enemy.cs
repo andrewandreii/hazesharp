@@ -11,6 +11,9 @@ public partial class Enemy : Area2D
 	[Export]
 	public EnemySize enemySize;
 
+	[Export]
+	public int health;
+
 	IAI enemyAI;
 	IAI.AIState previousState;
 
@@ -25,8 +28,16 @@ public partial class Enemy : Area2D
 
 	public enum AnimationSpriteSheet
 	{
-		Idle, Moving, Attacking
+		Idle, Moving, Attacking, Hurt
 	};
+
+	void onPlayerTouch(Node2D body)
+	{
+		if (body is Blob blob)
+		{
+			blob.takeDamage(1);
+		}
+	}
 
 	public override void _Ready()
 	{
@@ -42,32 +53,67 @@ public partial class Enemy : Area2D
 		}
 	}
 
+	bool processAI = true;
 	public override void _PhysicsProcess(double delta)
 	{
-		Position = enemyAI.ai(delta);
-		if (previousState != enemyAI.State)
+		if (processAI)
 		{
-			frameTimer = 0;
-			previousState = enemyAI.State;
+			Position = enemyAI.ai(delta);
+			if (previousState != enemyAI.State)
+			{
+				frameTimer = 0;
+				previousState = enemyAI.State;
+			}
+
+			AnimationSpriteSheet toPlayAnimation = AnimationSpriteSheet.Idle;
+			if (enemyAI.State != IAI.AIState.Idle)
+			{
+				sprite.FlipH = enemyAI.getDirection().X > 0;
+				toPlayAnimation = enemyAI.State == IAI.AIState.Attacking ? AnimationSpriteSheet.Attacking : AnimationSpriteSheet.Moving;
+			}
+
+			playAnimation(toPlayAnimation);
 		}
 
-		AnimationSpriteSheet toPlayAnimation = AnimationSpriteSheet.Idle;
-		if (enemyAI.State != IAI.AIState.Idle)
+		continueAnimation();
+	}
+
+	AnimationSpriteSheet currentAnimation = AnimationSpriteSheet.Idle;
+	void playAnimation(AnimationSpriteSheet animation)
+	{
+		if (animation == currentAnimation)
 		{
-			sprite.FlipH = enemyAI.getDirection().X > 0;
-			toPlayAnimation = enemyAI.State == IAI.AIState.Attacking ? AnimationSpriteSheet.Attacking : AnimationSpriteSheet.Moving;
+			return;
 		}
 
+		currentAnimation = animation;
+
+		frameTimer = 0;
+		sprite.Frame = enemyType * sprite.Hframes + (int)animation * 2;
+	}
+
+	void continueAnimation()
+	{
 		++frameTimer;
 		if (frameTimer > animationFrameCountTo)
 		{
 			frameTimer = 0;
-			playAnimation(toPlayAnimation);
+			sprite.Frame = enemyType * sprite.Hframes - (sprite.Frame % 2 - 1) + (int)currentAnimation * 2;
 		}
 	}
 
-	void playAnimation(AnimationSpriteSheet animation)
+	public void takeDamage(int amount)
 	{
-		sprite.Frame = enemyType * sprite.Hframes - (sprite.Frame % 2 - 1) + (int)animation * 2;
+		health -= amount;
+		sprite.Frame = 0;
+		var timer = GetTree().CreateTimer(100);
+		playAnimation(AnimationSpriteSheet.Hurt);
+		processAI = false;
+		GetTree().CreateTimer(0.2).Timeout += () => processAI = true;
+		if (health < 0)
+		{
+			// TODO: remember which enemies died
+			QueueFree();
+		}
 	}
 }

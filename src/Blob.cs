@@ -9,6 +9,9 @@ public partial class Blob : CharacterBody2D
 	public const float MaxSpeed = 400.0f;
 	public const float MaxFallSpeed = 400.0f;
 
+	[Signal]
+	public delegate void tookDamageEventHandler();
+
 	public bool isDrilling = false;
 	public float drillGravityBoost = 1.4f;
 	public float allowedSpeed = MaxNormalSpeed;
@@ -50,6 +53,8 @@ public partial class Blob : CharacterBody2D
 	public AnimationPlayer anim;
 	public Sprite2D sprite;
 	public RayCast2D left_ray, right_ray;
+
+	public int health = 5;
 
 	public override void _Ready()
 	{
@@ -168,5 +173,16 @@ public partial class Blob : CharacterBody2D
 
 	public void onDrillHitTarget(Node2D body)
 	{
+		if (body is Enemy enemy)
+		{
+			enemy.takeDamage(7);
+			Velocity = new Vector2(Velocity.X, JumpVelocity);
+		}
+	}
+
+	public void takeDamage(int amount)
+	{
+		health -= amount;
+		EmitSignal(SignalName.tookDamage);
 	}
 }

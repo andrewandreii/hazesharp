@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dqybkys7wlf4j" path="res://scenes/enemy/components/flying_enemy_ai.tscn" id="2_rrapv"]
 
 [node name="Enemy" instance=ExtResource("1_a36pg")]
+health = 10
 enemyType = 4
 animationFrameCountTo = 2
 

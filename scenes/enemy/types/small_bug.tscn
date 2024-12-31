@@ -4,5 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://dsynrpsfqqfim" path="res://scenes/enemy/components/bug_patrol_ai.tscn" id="2_rj7ft"]
 
 [node name="SmallBugEnemy" instance=ExtResource("1_exlen")]
+health = 15
 
 [node name="BugPatrolAI" parent="." index="2" instance=ExtResource("2_rj7ft")]
