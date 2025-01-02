@@ -1,11 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://dpuhj5vaac4nk"]
+[gd_scene load_steps=5 format=3 uid="uid://dpuhj5vaac4nk"]
 
 [ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_a36pg"]
+[ext_resource type="Script" path="res://src/enemy/EnemyType.cs" id="2_cy2xt"]
 [ext_resource type="PackedScene" uid="uid://dqybkys7wlf4j" path="res://scenes/enemy/components/flying_enemy_ai.tscn" id="2_rrapv"]
 
-[node name="Enemy" instance=ExtResource("1_a36pg")]
+[sub_resource type="Resource" id="Resource_pouh6"]
+script = ExtResource("2_cy2xt")
 health = 10
-enemyType = 4
-animationFrameCountTo = 2
+size = 0
+whichRow = 4
+animationFrameCountTo = 7
+metadata/_custom_type_script = ExtResource("2_cy2xt")
+
+[node name="Enemy" instance=ExtResource("1_a36pg")]
+type = SubResource("Resource_pouh6")
+
+[node name="Sprite2D" parent="." index="0"]
+frame = 32
+
+[node name="HitBox" parent="." index="1"]
+position = Vector2(0, -6)
+rotation = 0.0
 
 [node name="FlyingEnemyAI" parent="." index="2" instance=ExtResource("2_rrapv")]

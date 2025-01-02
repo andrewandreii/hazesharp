@@ -3,15 +3,9 @@ using System;
 
 public partial class Enemy : Area2D
 {
-	public enum EnemySize
-	{
-		Small, Big
-	};
-
 	[Export]
-	public EnemySize enemySize;
+	public EnemyType type;
 
-	[Export]
 	public int health;
 
 	IAI enemyAI;
@@ -19,11 +13,6 @@ public partial class Enemy : Area2D
 
 	public Sprite2D sprite;
 
-	[Export]
-	public int enemyType = 0;
-
-	[Export]
-	public int animationFrameCountTo = 7;
 	int frameTimer = 0;
 
 	public enum AnimationSpriteSheet
@@ -56,6 +45,8 @@ public partial class Enemy : Area2D
 				break;
 			}
 		}
+
+		health = type.health;
 	}
 
 	bool processAI = true;
@@ -94,16 +85,16 @@ public partial class Enemy : Area2D
 		currentAnimation = animation;
 
 		frameTimer = 0;
-		sprite.Frame = enemyType * sprite.Hframes + (int)animation * 2;
+		sprite.Frame = type.whichRow * sprite.Hframes + (int)animation * 2;
 	}
 
 	void continueAnimation()
 	{
 		++frameTimer;
-		if (frameTimer > animationFrameCountTo)
+		if (frameTimer > type.animationFrameCountTo)
 		{
 			frameTimer = 0;
-			sprite.Frame = enemyType * sprite.Hframes - (sprite.Frame % 2 - 1) + (int)currentAnimation * 2;
+			sprite.Frame = type.whichRow * sprite.Hframes - (sprite.Frame % 2 - 1) + (int)currentAnimation * 2;
 		}
 	}
 

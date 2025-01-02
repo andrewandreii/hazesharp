@@ -23,12 +23,12 @@ public partial class BugPatrolAI : Node2D, IAI
 
 		state = IAI.AIState.MovingX;
 
-		switch (parent.enemySize)
+		switch (parent.type.size)
 		{
-			case Enemy.EnemySize.Small:
+			case EnemyType.EnemySize.Small:
 				ray.Position = new Vector2(-11, -6);
 				break;
-			case Enemy.EnemySize.Big:
+			case EnemyType.EnemySize.Big:
 				ray.Position = new Vector2(-11, -6);
 				break;
 		}
