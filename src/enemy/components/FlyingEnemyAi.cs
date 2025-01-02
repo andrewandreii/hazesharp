@@ -23,13 +23,26 @@ public partial class FlyingEnemyAi : Node2D, IAI
 	public int hoverEffectFrames = 20;
 	public bool hoverEffectIsUp = true;
 
+	public PackedScene proj_scene;
+
+	public Timer attackCooldown;
+	public bool canAttack = true;
+
+	public Vector2 targetBias;
+
 	public override void _Ready()
 	{
-		World world = GetNode<World>("/root/World");
-		tilemap = world.getBasicTilemap();
-		blob = world.getBlob();
+		tilemap = Haze.World.getBasicTilemap();
+		blob = Haze.World.getBlob();
 
 		tilemapSize = tilemap.TileSet.TileSize.X;
+
+		proj_scene = GD.Load<PackedScene>("res://scenes/enemy/enemy_projectile.tscn");
+
+		attackCooldown = GetNode<Timer>("AttackCooldown");
+		attackCooldown.Timeout += () => canAttack = true;
+
+		targetBias = new Vector2(GD.RandRange(-3, 3), GD.RandRange(-3, 3));
 	}
 
 	public void onObjectSighted(Node2D body)
@@ -38,6 +51,13 @@ public partial class FlyingEnemyAi : Node2D, IAI
 		{
 			chasing = true;
 		}
+	}
+
+	public void spawnProjectile()
+	{
+		var proj = proj_scene.Instantiate<EnemyProjectile>();
+		proj.Position = GlobalPosition;
+		Haze.World.AddChild(proj);
 	}
 
 	public Vector2 ai(double delta)
@@ -55,7 +75,7 @@ public partial class FlyingEnemyAi : Node2D, IAI
 			return GlobalPosition + offset;
 		}
 
-		Vector2 targetPosition = new Vector2(blob.Position.X, blob.Position.Y - tilemapSize * 2);
+		Vector2 targetPosition = new Vector2(blob.Position.X, blob.Position.Y - tilemapSize * 2) + targetBias;
 		if (tilemap.GetCellTileData(tilemap.LocalToMap(targetPosition)) is not null)
 		{
 			targetPosition = lastValidTargetPosition;
@@ -69,6 +89,16 @@ public partial class FlyingEnemyAi : Node2D, IAI
 
 		if (Mathf.Abs(GlobalPosition.X - targetPosition.X) < 2 && Mathf.Abs(GlobalPosition.Y - targetPosition.Y) < 30)
 		{
+			if (state == IAI.AIState.Attacking)
+			{
+				if (canAttack)
+				{
+					spawnProjectile();
+					canAttack = false;
+					attackCooldown.Start();
+				}
+			}
+
 			return GlobalPosition + offset;
 		}
 

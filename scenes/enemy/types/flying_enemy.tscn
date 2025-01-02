@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dpuhj5vaac4nk"]
 
 [ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_a36pg"]
-[ext_resource type="Script" path="res://src/enemy/EnemyType.cs" id="2_cy2xt"]
+[ext_resource type="Script" uid="uid://cyvjcd6lkc04u" path="res://src/enemy/EnemyType.cs" id="2_cy2xt"]
 [ext_resource type="PackedScene" uid="uid://dqybkys7wlf4j" path="res://scenes/enemy/components/flying_enemy_ai.tscn" id="2_rrapv"]
 
 [sub_resource type="Resource" id="Resource_pouh6"]

@@ -172,12 +172,12 @@ public partial class Door : Area2D
 		{
 			if (EnterDirection == Vector2.Right)
 			{
-				// Bottom-right
-				return GlobalPosition + halfSize;
+				// Bottom-left
+				return GlobalPosition + new Vector2(-halfSize.X, halfSize.Y);
 			}
 
-			// Bottom-left
-			return GlobalPosition + new Vector2(-halfSize.X, halfSize.Y);
+			// Bottom-right
+			return GlobalPosition + halfSize;
 		}
 
 		if (EnterDirection == Vector2.Up)

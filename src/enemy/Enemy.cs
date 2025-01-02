@@ -26,6 +26,7 @@ public partial class Enemy : Area2D
 		{
 			if (blob.isDrilling && blob.GlobalPosition.Y < GlobalPosition.Y)
 			{
+				GD.Print("cannot attac");
 				return;
 			}
 

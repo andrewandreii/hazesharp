@@ -13,7 +13,7 @@ tile_map_data = PackedByteArray("AAAZAAoAAAABAAAAAAAYAAoAAAABAAAAAAAXAAoAAAABAAA
 tile_set = ExtResource("2_xd5ii")
 
 [node name="Enemies" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAJAAUAAAAAAAAAAgA=")
+tile_map_data = PackedByteArray("AAAJAAUAAAAAAAAAAgD//wUAAAAAAAAAAgD1/wUAAAAAAAAAAgAAAAUAAAAAAAAAAgD+/wUAAAAAAAAAAgA=")
 tile_set = ExtResource("3_fiq81")
 
 [node name="Doors" type="Node2D" parent="."]

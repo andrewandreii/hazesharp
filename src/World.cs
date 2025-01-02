@@ -29,6 +29,9 @@ public partial class World : Node2D
 			return;
 		}
 
+		uint layer = blob.CollisionLayer;
+		blob.CollisionLayer = 0;
+
 		state = WorldState.LevelTransition;
 
 		Level new_level = createLevel(levelName);
@@ -42,7 +45,11 @@ public partial class World : Node2D
 		CallDeferred("add_child", currentLevel);
 
 		var timer = GetTree().CreateTimer(0.1);
-		timer.Timeout += () => state = WorldState.Normal;
+		timer.Timeout += () =>
+		{
+			blob.CollisionLayer = layer;
+			state = WorldState.Normal;
+		};
 
 		currentLevel.Ready += () =>
 		{

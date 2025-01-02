@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dilwmsq5wff2g"]
+
+[ext_resource type="Texture2D" uid="uid://cvchc3tgoxoe8" path="res://art/haze_projectiles.png" id="1_avmsn"]
+[ext_resource type="Script" uid="uid://c2kr5n8konpb2" path="res://src/enemy/EnemyProjectile.cs" id="1_knyqc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knyqc"]
+atlas = ExtResource("1_avmsn")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_avmsn"]
+radius = 2.23607
+
+[node name="EnemyProjectile" type="Area2D"]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_knyqc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_knyqc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_avmsn")
+
+[connection signal="body_entered" from="." to="." method="onPlayerHit"]

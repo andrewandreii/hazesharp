@@ -7,7 +7,7 @@
 [ext_resource type="Shape2D" uid="uid://b1ty0dnvpwrlg" path="res://resources/player_squished_collision.tres" id="5_8gt5w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7crg0"]
-radius = 6.0
+radius = 5.0
 
 [sub_resource type="Animation" id="Animation_ur7dl"]
 length = 0.001
@@ -138,7 +138,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gt5w"]
-radius = 3.0
+radius = 5.0
 
 [sub_resource type="Animation" id="Animation_7crg0"]
 resource_name = "attack_loop"
