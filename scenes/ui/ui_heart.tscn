@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvgvho524la87"]
+
+[ext_resource type="Texture2D" uid="uid://yy2fidy4mi7e" path="res://art/ui_heart.png" id="1_njcea"]
+
+[node name="UIHeart" type="TextureRect"]
+custom_minimum_size = Vector2(16, 16)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -304.0
+offset_bottom = -164.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_njcea")
+expand_mode = 2
+stretch_mode = 2

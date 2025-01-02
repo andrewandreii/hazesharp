@@ -135,8 +135,7 @@ public partial class Door : Area2D
 
 		if (levelPath is null || levelPath.Length == 0)
 		{
-			GD.Print("hey");
-			warnings.Add("Level path cannot be empty.");
+			warnings.Add("level path cannot be empty.");
 		}
 
 		return warnings.ToArray();

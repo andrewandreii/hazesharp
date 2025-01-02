@@ -3,7 +3,7 @@ using System;
 
 public partial class Blob : CharacterBody2D
 {
-	public const float Speed = 50.0f;
+	public const float Speed = 40.0f;
 	public const float JumpVelocity = -400.0f;
 	public const float MaxNormalSpeed = 200.0f;
 	public const float MaxSpeed = 400.0f;
@@ -52,7 +52,8 @@ public partial class Blob : CharacterBody2D
 
 	public AnimationPlayer anim;
 	public Sprite2D sprite;
-	public RayCast2D left_ray, right_ray;
+	public RayCast2D leftRay, rightRay;
+	public Timer iframeTimer;
 
 	public int health = 5;
 
@@ -60,8 +61,10 @@ public partial class Blob : CharacterBody2D
 	{
 		anim = GetNode<AnimationPlayer>("AnimationPlayer");
 		sprite = GetNode<Sprite2D>("Sprite2D");
-		left_ray = GetNode<RayCast2D>("LeftRayCast2D");
-		right_ray = GetNode<RayCast2D>("RightRayCast2D");
+		leftRay = GetNode<RayCast2D>("LeftRayCast2D");
+		rightRay = GetNode<RayCast2D>("RightRayCast2D");
+		iframeTimer = GetNode<Timer>("IFrameTimer");
+		/*Engine.TimeScale = 0.2;*/
 	}
 
 	public override void _Input(InputEvent ev)
@@ -70,9 +73,9 @@ public partial class Blob : CharacterBody2D
 		{
 			bool isRight = Input.IsActionPressed("right");
 			bool isLeft = Input.IsActionPressed("left");
-			if ((isRight && right_ray.IsColliding()) || (isLeft && left_ray.IsColliding()))
+			if ((isRight && rightRay.IsColliding()) || (isLeft && leftRay.IsColliding()))
 			{
-				GodotObject obj = isRight ? right_ray.GetCollider() : left_ray.GetCollider();
+				GodotObject obj = isRight ? rightRay.GetCollider() : leftRay.GetCollider();
 				if (obj is IPassthrough pobj)
 				{
 					Position = pobj.teleportFrom(Position);
@@ -182,6 +185,12 @@ public partial class Blob : CharacterBody2D
 
 	public void takeDamage(int amount)
 	{
+		if (!iframeTimer.IsStopped())
+		{
+			return;
+		}
+
+		iframeTimer.Start();
 		health -= amount;
 		EmitSignal(SignalName.tookDamage);
 	}

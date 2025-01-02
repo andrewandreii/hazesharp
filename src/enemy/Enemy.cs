@@ -35,6 +35,11 @@ public partial class Enemy : Area2D
 	{
 		if (body is Blob blob)
 		{
+			if (blob.isDrilling && blob.GlobalPosition.Y < GlobalPosition.Y)
+			{
+				return;
+			}
+
 			blob.takeDamage(1);
 		}
 	}
@@ -106,7 +111,7 @@ public partial class Enemy : Area2D
 	{
 		health -= amount;
 		sprite.Frame = 0;
-		var timer = GetTree().CreateTimer(100);
+		var timer = GetTree().CreateTimer(300);
 		playAnimation(AnimationSpriteSheet.Hurt);
 		processAI = false;
 		GetTree().CreateTimer(0.2).Timeout += () => processAI = true;

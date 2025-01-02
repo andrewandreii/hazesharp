@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu6yl5bi2cvqs"]
+
+[ext_resource type="FontFile" uid="uid://bregv6dtbscr0" path="res://resources/font/monogram.ttf" id="1_2dsia"]
+
+[sub_resource type="Theme" id="Theme_71j4m"]
+default_font = ExtResource("1_2dsia")
+
+[node name="UICurrency" type="HBoxContainer"]
+
+[node name="Coins" type="Label" parent="."]
+layout_mode = 2
+theme = SubResource("Theme_71j4m")
+text = "hello ther my guis"
