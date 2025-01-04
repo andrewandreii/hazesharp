@@ -4,7 +4,7 @@ using System;
 public partial class Blob : CharacterBody2D
 {
 	public const float Speed = 40.0f;
-	public const float JumpVelocity = -400.0f;
+	public const float JumpVelocity = -435.0f;
 	public const float MaxNormalSpeed = 200.0f;
 	public const float MaxSpeed = 400.0f;
 	public const float MaxFallSpeed = 400.0f;
@@ -57,8 +57,11 @@ public partial class Blob : CharacterBody2D
 	public RayCast2D leftRay, rightRay;
 	public Timer iframeTimer;
 
+	public int maxHealth = 5;
 	public int health = 5;
-	public int coins = 0;
+	public uint coins = 0;
+
+	public Node2D interactible;
 
 	public override void _Ready()
 	{
@@ -92,6 +95,15 @@ public partial class Blob : CharacterBody2D
 			if (Velocity.Y < 0)
 			{
 				Velocity = new Vector2(Velocity.X, Velocity.Y / 2);
+			}
+		}
+
+		if (ev.IsActionPressed("interact") && interactible is not null)
+		{
+			if (interactible.Name.Equals("SaveBench"))
+			{
+				SaveSystem.saveToSlot(0);
+				health = maxHealth;
 			}
 		}
 	}
@@ -198,9 +210,19 @@ public partial class Blob : CharacterBody2D
 		EmitSignal(SignalName.healthUpdated, health);
 	}
 
-	public void addCoins(int amount)
+	public void addCoins(uint amount)
 	{
 		coins += amount;
 		EmitSignal(SignalName.coinsUpdated, coins);
+	}
+
+	public bool spendMoney(uint amount)
+	{
+		return true;
+	}
+
+	public void onNewInteract(Area2D newInteract)
+	{
+		interactible = newInteract;
 	}
 }

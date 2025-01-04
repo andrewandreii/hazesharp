@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://fx60ee8wjw2u"]
+
+[ext_resource type="Texture2D" uid="uid://c3yfib28bcjpp" path="res://art/tileset.png" id="1_qd7ga"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qd7ga"]
+size = Vector2(44, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_at3m4"]
+atlas = ExtResource("1_qd7ga")
+region = Rect2(0, 96, 48, 16)
+
+[sub_resource type="Animation" id="Animation_at3m4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_qd7ga"]
+resource_name = "activate"
+length = 5.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.4, 0.5, 0.7, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ait7"]
+_data = {
+&"RESET": SubResource("Animation_at3m4"),
+&"activate": SubResource("Animation_qd7ga")
+}
+
+[node name="SaveTotem" type="Area2D"]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_qd7ga")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_at3m4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8ait7")
+}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c5u62dd2tk2td"]
+[gd_scene load_steps=18 format=3 uid="uid://c5u62dd2tk2td"]
 
 [ext_resource type="Texture2D" uid="uid://dyr0314y50axp" path="res://art/blob.png" id="1_4cf5j"]
 [ext_resource type="Script" uid="uid://j38p05f225br" path="res://src/Blob.cs" id="1_14eig"]
@@ -8,6 +8,9 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7crg0"]
 radius = 5.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8gt5w"]
+size = Vector2(20, 10)
 
 [sub_resource type="Animation" id="Animation_ur7dl"]
 length = 0.001
@@ -561,6 +564,15 @@ monitorable = false
 position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_7crg0")
 
+[node name="InteractBox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractBox"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_8gt5w")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -4)
 rotation = 1.5708
@@ -588,3 +600,4 @@ wait_time = 0.1
 one_shot = true
 
 [connection signal="area_entered" from="DrillHitbox" to="." method="onDrillHitTarget"]
+[connection signal="area_entered" from="InteractBox" to="." method="onNewInteract"]

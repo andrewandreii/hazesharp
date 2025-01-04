@@ -3,7 +3,7 @@ using System;
 
 public partial class Coin : Area2D
 {
-	public int value = 10;
+	public uint value = 10;
 
 	public Sprite2D sprite;
 

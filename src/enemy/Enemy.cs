@@ -119,9 +119,9 @@ public partial class Enemy : Area2D
 		{
 			// TODO: remember which enemies died
 			var coin = CoinScene.Instantiate<Coin>();
-			coin.value = GD.RandRange(type.coinDropRange.X, type.coinDropRange.Y);
+			coin.value = (uint)GD.RandRange(type.coinDropRange.X, type.coinDropRange.Y);
 			coin.Position = Position;
-			Haze.World.currentLevel.AddChild(coin);
+			Haze.World.currentLevel.CallDeferred("add_child", coin);
 			QueueFree();
 		}
 	}
