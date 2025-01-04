@@ -13,6 +13,9 @@ public partial class EnemyType : Resource
 	public int health;
 
 	[Export]
+	public bool unkillable = false;
+
+	[Export]
 	public EnemySize size;
 
 	[Export]
@@ -20,6 +23,9 @@ public partial class EnemyType : Resource
 
 	[Export]
 	public int animationFrameCountTo = 7;
+
+	[Export]
+	public Vector2I coinDropRange;
 
 	public EnemyType() { }
 }

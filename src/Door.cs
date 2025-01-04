@@ -8,7 +8,7 @@ using System.Linq;
 public partial class Door : Area2D
 {
 	[Signal]
-	public delegate void PlayerTransitionToEventHandler(String levelPath, int doorId);
+	public delegate void PlayerEnteredEventHandler(String levelPath, int doorId);
 
 	private string levelPath;
 	[Export(PropertyHint.File, "*.tscn,")]
@@ -182,12 +182,12 @@ public partial class Door : Area2D
 
 		if (EnterDirection == Vector2.Up)
 		{
-			// Top-middle
-			return GlobalPosition + new Vector2(-halfSize.X, 0);
+			// Bottom-middle
+			return GlobalPosition + new Vector2(0, halfSize.Y);
 		}
 
-		// Bottom-middle
-		return GlobalPosition + new Vector2(halfSize.X, 0);
+		// Top-middle
+		return GlobalPosition + new Vector2(0, -halfSize.Y);
 	}
 
 	public void onBodyEntered(Node2D body)
@@ -197,7 +197,7 @@ public partial class Door : Area2D
 		GD.Print($"\tdetected by {Name}");
 		if (body is Blob blob)
 		{
-			EmitSignal(SignalName.PlayerTransitionTo, LevelPath, doorId);
+			EmitSignal(SignalName.PlayerEntered, LevelPath, doorId);
 		}
 		else
 		{

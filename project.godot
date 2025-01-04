@@ -83,5 +83,5 @@ phase={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-environment/defaults/default_clear_color=Color(0.227451, 0.219608, 0.345098, 1)
+environment/defaults/default_clear_color=Color(0.305882, 0.345098, 0.290196, 1)
 2d/snap/snap_2d_transforms_to_pixel=true

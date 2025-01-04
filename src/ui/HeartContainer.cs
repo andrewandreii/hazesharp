@@ -13,16 +13,15 @@ public partial class HeartContainer : HBoxContainer
 		Haze.World.Ready += () =>
 		{
 			blob = Haze.World.getBlob();
-			blob.tookDamage += updateHealth;
+			blob.healthUpdated += updateHealth;
 		};
 
 		hearts = GetChildren().Cast<TextureRect>().ToList();
 	}
 
-	public void updateHealth()
+	public void updateHealth(int health)
 	{
-		GD.Print("current health: ", blob.health);
-		int health = blob.health;
+		GD.Print("current health: ", health);
 		foreach (TextureRect heart in hearts)
 		{
 			if (health > 0)

@@ -6,6 +6,9 @@ public partial class World : Node2D
 	[Export(PropertyHint.File, "*.tscn,")]
 	public String levelPath;
 
+	[Export]
+	public int startDoor = 2;
+
 	public Level currentLevel;
 	public Blob blob;
 	public BlobCam blobCam;
@@ -18,7 +21,7 @@ public partial class World : Node2D
 
 	public WorldState state = WorldState.Normal;
 
-	public void roomChanged(String levelName, int doorId)
+	public void changeRoom(String levelName, int doorId)
 	{
 		GD.Print($"Supposed to change scene to {levelName} at {doorId}");
 
@@ -34,13 +37,10 @@ public partial class World : Node2D
 
 		state = WorldState.LevelTransition;
 
-		Level new_level = createLevel(levelName);
-		new_level.init(roomChanged);
+		Level new_level = createLevel(levelName, doorId);
 		currentLevel.QueueFree();
 
 		currentLevel = new_level;
-		currentLevel.Show();
-		blob.Show();
 
 		CallDeferred("add_child", currentLevel);
 
@@ -51,7 +51,24 @@ public partial class World : Node2D
 			state = WorldState.Normal;
 		};
 
-		currentLevel.Ready += () =>
+		return;
+	}
+
+	public override void _Ready()
+	{
+		blob = GetNode<Blob>("Blob");
+		blobCam = GetNode<BlobCam>("BlobCam");
+
+		currentLevel = createLevel(levelPath, startDoor);
+		AddChild(currentLevel);
+	}
+
+	Level createLevel(String levelPath, int doorId)
+	{
+		var level = GD.Load<PackedScene>(levelPath).Instantiate<Level>();
+		level.init(changeRoom);
+
+		level.Ready += () =>
 		{
 			Vector2 start, direction;
 			(start, direction) = currentLevel.getRoomEnterWalk(doorId, 16);
@@ -60,33 +77,15 @@ public partial class World : Node2D
 			setCameraLimits();
 		};
 
-		return;
-	}
-
-	public override void _Ready()
-	{
-		currentLevel = createLevel(levelPath);
-		currentLevel.init(roomChanged);
-		AddChild(currentLevel);
-		currentLevel.Show();
-		currentLevel.Ready += () => { setCameraLimits(); };
-
-		blob = GetNode<Blob>("Blob");
-		blobCam = GetNode<BlobCam>("BlobCam");
-	}
-
-	Level createLevel(String levelPath)
-	{
-		var levelScene = GD.Load<PackedScene>(levelPath);
-		return levelScene.Instantiate<Level>();
+		return level;
 	}
 
 	void setCameraLimits()
 	{
-		blobCam.MinLimit = currentLevel.levelRect.Position * 16;
-		blobCam.MaxLimit = (currentLevel.levelRect.Position + currentLevel.levelRect.Size) * 16;
+		Vector2 margin = new Vector2(1, 1);
 
-		GD.Print(blobCam.MinLimit, blobCam.MaxLimit);
+		blobCam.MinLimit = (currentLevel.levelRect.Position + margin) * 16;
+		blobCam.MaxLimit = (currentLevel.levelRect.Position + currentLevel.levelRect.Size - margin) * 16;
 	}
 
 	public TileMapLayer getBasicTilemap()

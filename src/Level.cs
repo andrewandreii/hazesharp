@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public partial class Level : Node2D
 {
-	Door.PlayerTransitionToEventHandler roomChangedHandler;
+	Door.PlayerEnteredEventHandler roomChangedHandler;
 
 	List<Door> doors = new List<Door>();
 
@@ -13,7 +13,7 @@ public partial class Level : Node2D
 
 	public Rect2I levelRect;
 
-	public void init(Door.PlayerTransitionToEventHandler roomChangedHandler)
+	public void init(Door.PlayerEnteredEventHandler roomChangedHandler)
 	{
 		this.roomChangedHandler = roomChangedHandler;
 	}
@@ -29,7 +29,7 @@ public partial class Level : Node2D
 			if (node is Door door)
 			{
 				doors.Add(door);
-				door.PlayerTransitionTo += roomChangedHandler;
+				door.PlayerEntered += roomChangedHandler;
 			}
 			else
 			{

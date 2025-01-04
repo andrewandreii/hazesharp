@@ -10,7 +10,9 @@ public partial class Blob : CharacterBody2D
 	public const float MaxFallSpeed = 400.0f;
 
 	[Signal]
-	public delegate void tookDamageEventHandler();
+	public delegate void healthUpdatedEventHandler(int health);
+	[Signal]
+	public delegate void coinsUpdatedEventHandler(int amount);
 
 	public bool isDrilling = false;
 	public float drillGravityBoost = 1.4f;
@@ -56,6 +58,7 @@ public partial class Blob : CharacterBody2D
 	public Timer iframeTimer;
 
 	public int health = 5;
+	public int coins = 0;
 
 	public override void _Ready()
 	{
@@ -192,6 +195,12 @@ public partial class Blob : CharacterBody2D
 
 		iframeTimer.Start();
 		health -= amount;
-		EmitSignal(SignalName.tookDamage);
+		EmitSignal(SignalName.healthUpdated, health);
+	}
+
+	public void addCoins(int amount)
+	{
+		coins += amount;
+		EmitSignal(SignalName.coinsUpdated, coins);
 	}
 }

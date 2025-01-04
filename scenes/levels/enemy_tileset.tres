@@ -1,11 +1,13 @@
-[gd_resource type="TileSet" load_steps=4 format=3 uid="uid://e7mbnlrea7m4"]
+[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://e7mbnlrea7m4"]
 
 [ext_resource type="PackedScene" uid="uid://cphut3r52unw6" path="res://scenes/enemy/types/small_bug.tscn" id="1_yl68q"]
 [ext_resource type="PackedScene" uid="uid://dpuhj5vaac4nk" path="res://scenes/enemy/types/flying_enemy.tscn" id="2_8glyn"]
+[ext_resource type="PackedScene" uid="uid://pgmqh3y38tgp" path="res://scenes/enemy/types/orb_enemy.tscn" id="3_8glyn"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_sk5k4"]
 scenes/1/scene = ExtResource("1_yl68q")
 scenes/2/scene = ExtResource("2_8glyn")
+scenes/3/scene = ExtResource("3_8glyn")
 
 [resource]
 sources/0 = SubResource("TileSetScenesCollectionSource_sk5k4")

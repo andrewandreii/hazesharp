@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cphut3r52unw6"]
+[gd_scene load_steps=7 format=3 uid="uid://cphut3r52unw6"]
 
 [ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_exlen"]
 [ext_resource type="Script" uid="uid://cyvjcd6lkc04u" path="res://src/enemy/EnemyType.cs" id="2_mkgcp"]
@@ -38,12 +38,21 @@ public partial class EnemyType : Resource
 [sub_resource type="Resource" id="Resource_mkgcp"]
 script = ExtResource("2_mkgcp")
 health = 17
+unkillable = false
 size = 0
 whichRow = 0
 animationFrameCountTo = 7
+coinDropRange = Vector2i(5, 10)
 metadata/_custom_type_script = SubResource("CSharpScript_rj7ft")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rj7ft"]
+radius = 2.0
+height = 12.0
 
 [node name="SmallBugEnemy" instance=ExtResource("1_exlen")]
 type = SubResource("Resource_mkgcp")
+
+[node name="HitBox" parent="." index="1"]
+shape = SubResource("CapsuleShape2D_rj7ft")
 
 [node name="BugPatrolAI" parent="." index="2" instance=ExtResource("2_rj7ft")]

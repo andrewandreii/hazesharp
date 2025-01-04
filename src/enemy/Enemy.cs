@@ -3,6 +3,8 @@ using System;
 
 public partial class Enemy : Area2D
 {
+	public static PackedScene CoinScene;
+
 	[Export]
 	public EnemyType type;
 
@@ -37,6 +39,7 @@ public partial class Enemy : Area2D
 	public override void _Ready()
 	{
 		sprite = GetNode<Sprite2D>("Sprite2D");
+		CoinScene = GD.Load<PackedScene>("res://scenes/coin.tscn");
 
 		foreach (Node2D child in GetChildren())
 		{
@@ -101,6 +104,11 @@ public partial class Enemy : Area2D
 
 	public void takeDamage(int amount)
 	{
+		if (type.unkillable)
+		{
+			return;
+		}
+
 		health -= amount;
 		sprite.Frame = 0;
 		var timer = GetTree().CreateTimer(300);
@@ -110,6 +118,10 @@ public partial class Enemy : Area2D
 		if (health < 0)
 		{
 			// TODO: remember which enemies died
+			var coin = CoinScene.Instantiate<Coin>();
+			coin.value = GD.RandRange(type.coinDropRange.X, type.coinDropRange.Y);
+			coin.Position = Position;
+			Haze.World.currentLevel.AddChild(coin);
 			QueueFree();
 		}
 	}
