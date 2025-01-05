@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://0fn1l5y8x28k"]
+
+[ext_resource type="Script" uid="uid://b8p0cs7tmwhiu" path="res://src/ui/TutorialHint.cs" id="1_v0hd3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vvf6o"]
+size = Vector2(64, 64)
+
+[node name="TutorialHint" type="Area2D"]
+collision_layer = 0
+monitorable = false
+script = ExtResource("1_v0hd3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_vvf6o")
+
+[connection signal="body_entered" from="." to="." method="onPlayerEntered"]

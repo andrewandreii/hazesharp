@@ -62,6 +62,14 @@ public partial class World : Node2D
 		blob = GetNode<Blob>("Blob");
 		blobCam = GetNode<BlobCam>("BlobCam");
 
+		if (Haze.SaveLoaded)
+		{
+			levelPath = Haze.worldData.levelPath;
+			startDoor = 0;
+			blob.maxHealth = Haze.blobData.maxHealth;
+			blob.coins = Haze.blobData.coins;
+		}
+
 		currentLevel = createLevel(levelPath, startDoor);
 		levelEnteredFrom = startDoor;
 		AddChild(currentLevel);

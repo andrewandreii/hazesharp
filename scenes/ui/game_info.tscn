@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3qlc81p3w0go"]
+
+[ext_resource type="Theme" uid="uid://dtap57rficvt2" path="res://scenes/ui/global_theme.tres" id="1_r4be7"]
+[ext_resource type="Script" uid="uid://cye6fiyvuku77" path="res://src/ui/GameInfo.cs" id="2_rurq7"]
+
+[node name="GameInfo" type="Label"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -130.0
+offset_bottom = 23.0
+grow_horizontal = 0
+size_flags_horizontal = 8
+theme = ExtResource("1_r4be7")
+text = "New tip."
+autowrap_mode = 3
+script = ExtResource("2_rurq7")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true

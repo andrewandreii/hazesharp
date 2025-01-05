@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://dtap57rficvt2"]
+
+[ext_resource type="FontFile" uid="uid://bregv6dtbscr0" path="res://resources/font/monogram.ttf" id="1_a0xwb"]
+
+[resource]
+default_font = ExtResource("1_a0xwb")

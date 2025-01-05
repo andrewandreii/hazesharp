@@ -25,5 +25,6 @@ public partial class SaveBench : Area2D, IInteractable
 		Blob blob = Haze.World.getBlob();
 		blob.health = blob.maxHealth;
 		SaveSystem.saveToSlot(0);
+		Haze.Info.showInfo("Game saved.");
 	}
 }

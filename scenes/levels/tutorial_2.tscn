@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://1hoii7kd1l0d"]
+[gd_scene load_steps=6 format=4 uid="uid://1hoii7kd1l0d"]
 
 [ext_resource type="Script" uid="uid://chqpb0rt3gb27" path="res://src/Level.cs" id="1_131pe"]
 [ext_resource type="TileSet" uid="uid://cur4tgo52dkym" path="res://scenes/levels/basic_tileset.tres" id="2_qi357"]
 [ext_resource type="TileSet" uid="uid://e7mbnlrea7m4" path="res://scenes/levels/enemy_tileset.tres" id="3_d47y0"]
 [ext_resource type="PackedScene" uid="uid://dvi87uyartvjv" path="res://scenes/door.tscn" id="4_xbsfl"]
+[ext_resource type="PackedScene" uid="uid://0fn1l5y8x28k" path="res://scenes/ui/tutorial_hint.tscn" id="5_qi357"]
 
 [node name="Level2" type="Node2D"]
 script = ExtResource("1_131pe")
@@ -20,6 +21,10 @@ tile_set = ExtResource("2_qi357")
 [node name="Enemies" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD0/wUAAAAAAAAAAgDk/wMAAAAAAAAAAQA=")
 tile_set = ExtResource("3_d47y0")
+
+[node name="TutorialHint" parent="." instance=ExtResource("5_qi357")]
+position = Vector2(256, 128)
+hintText = "The height of your jump is based on how long you hold Space pressed."
 
 [node name="Doors" type="Node2D" parent="."]
 

@@ -33,7 +33,8 @@ public partial class SaveSystem
 		file.Store32(blob.coins);
 		file.StoreFloat(blob.Position.X);
 		file.StoreFloat(blob.Position.Y);
-		file.StoreString(level.SceneFilePath);
+		file.Store32((uint)level.SceneFilePath.Length);
+		file.StoreBuffer(level.SceneFilePath.ToAsciiBuffer());
 
 		file.Flush();
 	}
@@ -55,7 +56,8 @@ public partial class SaveSystem
 		blob.position = new Vector2(file.GetReal(), file.GetReal());
 
 		WorldData world;
-		world.levelPath = file.GetAsText();
+		int pathLength = (int)file.Get32();
+		world.levelPath = file.GetBuffer(pathLength).GetStringFromAscii();
 
 		return (blob, world);
 	}

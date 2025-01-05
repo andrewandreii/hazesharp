@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="HazeSharp"
-run/main_scene="res://scenes/world.tscn"
+run/main_scene="uid://c4p45il6lv5di"
 config/features=PackedStringArray("4.4", "C#", "Forward Plus")
 boot_splash/show_image=false
 config/icon="res://art/blob.png"

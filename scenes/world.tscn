@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://byiv53ill3u0n"]
+[gd_scene load_steps=7 format=3 uid="uid://byiv53ill3u0n"]
 
 [ext_resource type="PackedScene" uid="uid://c5u62dd2tk2td" path="res://scenes/blob.tscn" id="1_nyyaf"]
 [ext_resource type="Script" uid="uid://lkxh6ovcafqd" path="res://src/World.cs" id="1_rd4iu"]
 [ext_resource type="PackedScene" uid="uid://bh6cp36e0aiwd" path="res://scenes/blob_cam.tscn" id="3_4rqca"]
 [ext_resource type="PackedScene" uid="uid://crtsdk7ofwn02" path="res://scenes/ui/heart_container.tscn" id="4_71j4m"]
 [ext_resource type="PackedScene" uid="uid://bu6yl5bi2cvqs" path="res://scenes/ui/ui_currency.tscn" id="5_qfnet"]
+[ext_resource type="PackedScene" uid="uid://d3qlc81p3w0go" path="res://scenes/ui/game_info.tscn" id="6_qfnet"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_rd4iu")
@@ -17,14 +18,16 @@ position = Vector2(128, 144)
 [node name="BlobCam" parent="." node_paths=PackedStringArray("mrBlob") instance=ExtResource("3_4rqca")]
 mrBlob = NodePath("../Blob")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 
-[node name="UI" type="VBoxContainer" parent="CanvasLayer"]
+[node name="GameInfo" parent="UI" instance=ExtResource("6_qfnet")]
+
+[node name="UI" type="VBoxContainer" parent="UI"]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="HeartContainer" parent="CanvasLayer/UI" instance=ExtResource("4_71j4m")]
+[node name="HeartContainer" parent="UI/UI" instance=ExtResource("4_71j4m")]
 layout_mode = 2
 
-[node name="UICurrency" parent="CanvasLayer/UI" instance=ExtResource("5_qfnet")]
+[node name="UICurrency" parent="UI/UI" instance=ExtResource("5_qfnet")]
 layout_mode = 2
