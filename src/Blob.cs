@@ -1,5 +1,4 @@
 using Godot;
-using System;
 
 public partial class Blob : CharacterBody2D
 {
@@ -18,9 +17,9 @@ public partial class Blob : CharacterBody2D
 	public const float MaxNormalSpeed = 200.0f;
 	public const float MaxSpeed = 400.0f;
 	public const float MaxFallSpeed = 400.0f;
+	public const float DrillGravityBoost = 1.4f;
 
 	public bool isDrilling = false;
-	public float drillGravityBoost = 1.4f;
 	public float allowedSpeed = MaxNormalSpeed;
 	public float speedBuff = 1.0f;
 	public bool usedDoubleJump = false;
@@ -83,7 +82,6 @@ public partial class Blob : CharacterBody2D
 			bool isLeft = Input.IsActionPressed("left");
 			if ((isRight && rightRay.IsColliding()) || (isLeft && leftRay.IsColliding()))
 			{
-				GD.Print("wha");
 				GodotObject obj = isRight ? rightRay.GetCollider() : leftRay.GetCollider();
 				if (obj is IPassthrough pobj)
 				{
@@ -113,7 +111,7 @@ public partial class Blob : CharacterBody2D
 
 		if (!IsOnFloor())
 		{
-			velocity += GetGravity() * (float)delta * (velocity.Y > 0 ? 1.3f : 1.0f) * (isDrilling ? drillGravityBoost : 1.0f);
+			velocity += GetGravity() * (float)delta * (velocity.Y > 0 ? 1.3f : 1.0f) * (isDrilling ? DrillGravityBoost : 1.0f);
 			if (velocity.Y > MaxFallSpeed)
 			{
 				velocity.Y = MaxFallSpeed;

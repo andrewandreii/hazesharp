@@ -24,10 +24,6 @@ public partial class World : Node2D
 
 	public void changeRoom(String levelName, int doorId)
 	{
-		GD.Print($"Supposed to change scene to {levelName} at {doorId}");
-
-		GD.Print($"room transition while {blob.Position}");
-
 		if (state == WorldState.LevelTransition)
 		{
 			return;

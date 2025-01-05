@@ -1,7 +1,5 @@
 using Godot;
 using System;
-using System.Diagnostics;
-using System.Collections.Generic;
 using System.Linq;
 
 [Tool]
@@ -11,6 +9,7 @@ public partial class Door : Area2D
 	public delegate void PlayerEnteredEventHandler(String levelPath, int doorId);
 
 	private string levelPath;
+
 	[Export(PropertyHint.File, "*.tscn,")]
 	public String LevelPath
 	{
@@ -25,18 +24,6 @@ public partial class Door : Area2D
 	[Export]
 	public int doorId = 0;
 
-	[Export]
-	public bool ForceIsVertical
-	{
-		get => forceIsVertical;
-		set
-		{
-			forceIsVertical = value;
-			NotifyPropertyListChanged();
-		}
-	}
-
-	public bool forceIsVertical = false;
 	public bool isVertical;
 
 	private Vector2 enterDirection;
@@ -80,48 +67,6 @@ public partial class Door : Area2D
 		}
 	}
 
-	/*public override Godot.Collections.Array<Godot.Collections.Dictionary> _GetPropertyList()*/
-	/*{*/
-	/*	if (Engine.IsEditorHint())*/
-	/*	{*/
-	/*		var props = new Godot.Collections.Array<Godot.Collections.Dictionary>();*/
-	/**/
-	/*		if (forceIsVertical)*/
-	/*		{*/
-	/*			props.Add(new Godot.Collections.Dictionary()*/
-	/*		{*/
-	/*			{ "name", "is_vertical" },*/
-	/*			{ "type", (int)Variant.Type.Bool },*/
-	/*		});*/
-	/*		}*/
-	/**/
-	/*		return props;*/
-	/*	}*/
-	/**/
-	/*	return null;*/
-	/*}*/
-	/**/
-	/*public override Variant _Get(StringName property)*/
-	/*{*/
-	/*	if (property.ToString() == "is_vertical")*/
-	/*	{*/
-	/*		return isVertical;*/
-	/*	}*/
-	/**/
-	/*	return default;*/
-	/*}*/
-	/**/
-	/*public override bool _Set(StringName property, Variant value)*/
-	/*{*/
-	/*	if (property.ToString() == "is_vertical")*/
-	/*	{*/
-	/*		isVertical = value.AsBool();*/
-	/*		return true;*/
-	/*	}*/
-	/**/
-	/*	return false;*/
-	/*}*/
-
 	public override string[] _GetConfigurationWarnings()
 	{
 		var warnings = new Godot.Collections.Array<string>();
@@ -148,14 +93,7 @@ public partial class Door : Area2D
 			return;
 		}
 
-		if (!forceIsVertical)
-		{
-			isVertical = collisionSize.X < collisionSize.Y;
-		}
-		else
-		{
-			isVertical = forceIsVertical;
-		}
+		isVertical = collisionSize.X < collisionSize.Y;
 
 		BodyEntered += onBodyEntered;
 	}
@@ -192,16 +130,9 @@ public partial class Door : Area2D
 
 	public void onBodyEntered(Node2D body)
 	{
-		GD.Print($"door triggered at {DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()} body is at {body.Position}");
-		GD.Print($"\tdoor is at {Position}");
-		GD.Print($"\tdetected by {Name}");
 		if (body is Blob blob)
 		{
 			EmitSignal(SignalName.PlayerEntered, LevelPath, doorId);
-		}
-		else
-		{
-			// TODO: free entities that enter the door (level should manage freeing entities most likely)
 		}
 	}
 }

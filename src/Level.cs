@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Diagnostics;
 using System.Collections.Generic;
 
@@ -22,7 +21,6 @@ public partial class Level : Node2D
 	{
 		basic = GetNode<TileMapLayer>("Basic");
 		levelRect = basic.GetUsedRect();
-		GD.Print($"current level size {levelRect.Position}, {levelRect.Size}");
 
 		foreach (Node node in GetNode("Doors").GetChildren())
 		{
@@ -33,14 +31,14 @@ public partial class Level : Node2D
 			}
 			else
 			{
-				Debug.Fail("All nodes under Doors should inherit the class Door.");
+				GD.PushError("All nodes under Doors should inherit the class Door.");
 			}
 		}
 	}
 
-	public (Vector2, Vector2) getRoomEnterWalk(int door_num, int object_width)
+	public (Vector2, Vector2) getRoomEnterWalk(int doorNum, int objectWidth)
 	{
-		Door door = doors[door_num];
+		Door door = doors[doorNum];
 		Vector2 entryPoint = door.getEntryPoint();
 
 		return (entryPoint, -door.EnterDirection);

@@ -48,7 +48,7 @@ public partial class SaveSystem
 		var filename = getFilename(slotNumber);
 		if (!FileAccess.FileExists(filename))
 		{
-			OS.Alert("Could not load from save file, something went really wrong", "ALERT");
+			OS.Alert("Could not load from save file. Have you ever saved before?", "ALERT");
 			Haze.World.GetTree().Quit();
 		}
 

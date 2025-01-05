@@ -22,7 +22,6 @@ public partial class HeartContainer : HBoxContainer
 
 	public void updateHealth(int health)
 	{
-		GD.Print("current health: ", health);
 		foreach (TextureRect heart in hearts)
 		{
 			if (health > 0)
