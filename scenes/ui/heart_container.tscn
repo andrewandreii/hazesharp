@@ -20,3 +20,9 @@ layout_mode = 2
 
 [node name="UIHeart5" parent="." instance=ExtResource("1_2dtid")]
 layout_mode = 2
+
+[node name="UIHeart6" parent="." instance=ExtResource("1_2dtid")]
+layout_mode = 2
+
+[node name="UIHeart7" parent="." instance=ExtResource("1_2dtid")]
+layout_mode = 2

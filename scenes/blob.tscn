@@ -601,13 +601,14 @@ libraries = {
 [node name="RightRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, -2)
 target_position = Vector2(30, 0)
+collision_mask = 128
 
 [node name="LeftRayCast2D" type="RayCast2D" parent="."]
 position = Vector2(0, -2)
 target_position = Vector2(-30, 0)
+collision_mask = 128
 
 [node name="IFrameTimer" type="Timer" parent="."]
-wait_time = 2.0
 one_shot = true
 
 [node name="AFrameTimer" type="Timer" parent="."]

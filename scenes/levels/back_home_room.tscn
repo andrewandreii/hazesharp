@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=4 uid="uid://dkgh4er4uv4fq"]
+[gd_scene load_steps=6 format=4 uid="uid://dkgh4er4uv4fq"]
 
 [ext_resource type="Script" uid="uid://chqpb0rt3gb27" path="res://src/Level.cs" id="1_tmqra"]
 [ext_resource type="TileSet" uid="uid://cur4tgo52dkym" path="res://scenes/levels/basic_tileset.tres" id="2_dsfqi"]
 [ext_resource type="PackedScene" uid="uid://dvi87uyartvjv" path="res://scenes/door.tscn" id="3_sall6"]
+[ext_resource type="PackedScene" uid="uid://bwn3kelly5aak" path="res://scenes/objects/power_up.tscn" id="4_4h8gg"]
+[ext_resource type="PackedScene" uid="uid://bhlfc4757roeu" path="res://scenes/objects/back_home_door.tscn" id="5_odx32"]
 
 [node name="BackHomeRoom" type="Node2D"]
 script = ExtResource("1_tmqra")
@@ -25,3 +27,10 @@ doorId = 1
 EnterDirection = Vector2(1, 0)
 collisionSize = Vector2(20, 32)
 CollisionSize = Vector2(20, 32)
+
+[node name="PowerUp" parent="." instance=ExtResource("4_4h8gg")]
+position = Vector2(34, 198)
+type = 2
+
+[node name="BackHomeDoor" parent="." instance=ExtResource("5_odx32")]
+position = Vector2(202, 192)

@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://bhlfc4757roeu"]
+
+[ext_resource type="Script" uid="uid://b6t4noh10nouj" path="res://src/interactable/BackHomeDoor.cs" id="1_80gpj"]
+[ext_resource type="Texture2D" uid="uid://c3yfib28bcjpp" path="res://art/tileset.png" id="1_fgrw7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80gpj"]
+atlas = ExtResource("1_fgrw7")
+region = Rect2(0, 128, 64, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_80gpj"]
+radius = 21.0
+
+[node name="BackHomeDoor" type="Area2D"]
+z_index = -1
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+script = ExtResource("1_80gpj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_80gpj")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("CircleShape2D_80gpj")

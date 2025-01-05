@@ -14,6 +14,7 @@ public partial class HeartContainer : HBoxContainer
 		{
 			blob = Haze.World.getBlob();
 			blob.healthUpdated += updateHealth;
+			updateHealth(blob.health);
 		};
 
 		hearts = GetChildren().Cast<TextureRect>().ToList();

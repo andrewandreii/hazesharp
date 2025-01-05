@@ -12,10 +12,10 @@ public partial class UICurrency : HBoxContainer
 		Haze.World.Ready += () =>
 		{
 			Haze.World.blob.coinsUpdated += updateCoins;
+			updateCoins((int)Haze.World.getBlob().coins);
 		};
 
 		label = GetNode<Label>("Coins");
-		updateCoins(0);
 	}
 
 	public void updateCoins(int coins)

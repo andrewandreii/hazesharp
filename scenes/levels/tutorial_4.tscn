@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://c1vqgmvm1w6an"]
+[gd_scene load_steps=6 format=4 uid="uid://c1vqgmvm1w6an"]
 
 [ext_resource type="Script" uid="uid://chqpb0rt3gb27" path="res://src/Level.cs" id="1_u8wrh"]
 [ext_resource type="TileSet" uid="uid://cur4tgo52dkym" path="res://scenes/levels/basic_tileset.tres" id="1_yl07r"]
 [ext_resource type="TileSet" uid="uid://e7mbnlrea7m4" path="res://scenes/levels/enemy_tileset.tres" id="2_f7otn"]
 [ext_resource type="PackedScene" uid="uid://dvi87uyartvjv" path="res://scenes/door.tscn" id="3_f7otn"]
+[ext_resource type="PackedScene" uid="uid://bwn3kelly5aak" path="res://scenes/objects/power_up.tscn" id="4_2xrda"]
 
 [node name="Tutorial4" type="Node2D"]
 script = ExtResource("1_u8wrh")
@@ -21,6 +22,11 @@ tile_set = ExtResource("1_yl07r")
 tile_map_data = PackedByteArray("AAAcAAoAAAAAAAAAAgAMAA0AAAAAAAAAAQAEAAkAAAAAAAAAAQABAA0AAAAAAAAAAQA=")
 tile_set = ExtResource("2_f7otn")
 
+[node name="PowerUp" parent="." instance=ExtResource("4_2xrda")]
+position = Vector2(523, 100)
+type = 3
+coinValue = 200
+
 [node name="Doors" type="Node2D" parent="."]
 
 [node name="Door" parent="Doors" instance=ExtResource("3_f7otn")]
@@ -37,3 +43,8 @@ LevelPath = "uid://c6esgff0s735o"
 EnterDirection = Vector2(-1, 0)
 collisionSize = Vector2(20, 32)
 CollisionSize = Vector2(20, 32)
+
+[connection signal="body_entered" from="Enemies/Enemy" to="Enemies/Enemy" method="onPlayerTouch"]
+[connection signal="body_entered" from="Enemies/SmallBugEnemy" to="Enemies/SmallBugEnemy" method="onPlayerTouch"]
+[connection signal="body_entered" from="Enemies/@Area2D@26216" to="Enemies/@Area2D@26216" method="onPlayerTouch"]
+[connection signal="body_entered" from="Enemies/@Area2D@26217" to="Enemies/@Area2D@26217" method="onPlayerTouch"]

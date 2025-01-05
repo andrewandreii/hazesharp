@@ -23,6 +23,7 @@ public partial class Blob : CharacterBody2D
 	public float drillGravityBoost = 1.4f;
 	public float allowedSpeed = MaxNormalSpeed;
 	public float speedBuff = 1.0f;
+	public bool usedDoubleJump = false;
 	public WalkType currentWalk = WalkType.Normal;
 	public WalkType CurrentWalk
 	{
@@ -63,6 +64,7 @@ public partial class Blob : CharacterBody2D
 	public int health = 5;
 	public uint coins = 0;
 	public uint damage = 7;
+	public bool hasDoubleJump = false;
 
 	public override void _Ready()
 	{
@@ -81,6 +83,7 @@ public partial class Blob : CharacterBody2D
 			bool isLeft = Input.IsActionPressed("left");
 			if ((isRight && rightRay.IsColliding()) || (isLeft && leftRay.IsColliding()))
 			{
+				GD.Print("wha");
 				GodotObject obj = isRight ? rightRay.GetCollider() : leftRay.GetCollider();
 				if (obj is IPassthrough pobj)
 				{
@@ -140,6 +143,7 @@ public partial class Blob : CharacterBody2D
 		else
 		{
 			isDrilling = false;
+			usedDoubleJump = false;
 		}
 
 		float direction = Input.GetAxis("left", "right");
@@ -171,12 +175,17 @@ public partial class Blob : CharacterBody2D
 			}
 		}
 
-		if (IsOnFloor())
+		if (IsOnFloor() || (hasDoubleJump && !usedDoubleJump))
 		{
 			if (Input.IsActionJustPressed("jump"))
 			{
 				velocity.Y = JumpVelocity;
 				anim.Play("jump");
+
+				if (!IsOnFloor())
+				{
+					usedDoubleJump = true;
+				}
 			}
 		}
 
@@ -188,20 +197,29 @@ public partial class Blob : CharacterBody2D
 	{
 		if (body is IEnemy enemy)
 		{
-			enemy.takeDamage(7);
+			enemy.takeDamage((int)damage);
 			Velocity = new Vector2(Velocity.X, JumpVelocity);
 		}
 	}
 
-	public void takeDamage(int amount)
+	public void takeDamage(int amount, bool ignoreTimer = false)
 	{
-		if (!iframeTimer.IsStopped())
+		if (!iframeTimer.IsStopped() && !ignoreTimer)
 		{
 			return;
 		}
 
 		iframeTimer.Start();
 		health -= amount;
+
+		if (health <= 0)
+		{
+			Haze.World.changeRoom(Haze.worldData.levelPath, 0);
+			coins = 0;
+			EmitSignal(SignalName.coinsUpdated, 0);
+			health = maxHealth;
+		}
+
 		EmitSignal(SignalName.healthUpdated, health);
 	}
 
@@ -236,7 +254,7 @@ public partial class Blob : CharacterBody2D
 
 	public void onDeathToHazard(Node2D body)
 	{
-		takeDamage(1);
+		takeDamage(1, true);
 		Haze.World.restartLevel();
 	}
 }

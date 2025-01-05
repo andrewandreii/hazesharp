@@ -7,7 +7,8 @@ public partial class SaveSystem
 	{
 		public int maxHealth;
 		public uint coins;
-		public Vector2 position;
+		public uint damage;
+		public bool hasDoubleJump;
 	}
 
 	public struct WorldData
@@ -31,12 +32,15 @@ public partial class SaveSystem
 
 		file.Store32((uint)blob.maxHealth);
 		file.Store32(blob.coins);
-		file.StoreFloat(blob.Position.X);
-		file.StoreFloat(blob.Position.Y);
+		file.Store32(blob.damage);
+		file.Store32((uint)(blob.hasDoubleJump ? 1 : 0));
 		file.Store32((uint)level.SceneFilePath.Length);
 		file.StoreBuffer(level.SceneFilePath.ToAsciiBuffer());
+		WorldProgression.saveToFile(file);
 
 		file.Flush();
+
+		Haze.worldData.levelPath = level.SceneFilePath;
 	}
 
 	public static (BlobData, WorldData) loadFromSlot(int slotNumber)
@@ -49,15 +53,17 @@ public partial class SaveSystem
 		}
 
 		var file = FileAccess.Open(filename, FileAccess.ModeFlags.Read);
-
 		BlobData blob;
 		blob.maxHealth = (int)file.Get32();
 		blob.coins = file.Get32();
-		blob.position = new Vector2(file.GetReal(), file.GetReal());
+		blob.damage = file.Get32();
+		blob.hasDoubleJump = file.Get32() == 1;
 
 		WorldData world;
 		int pathLength = (int)file.Get32();
 		world.levelPath = file.GetBuffer(pathLength).GetStringFromAscii();
+
+		WorldProgression.loadFromFile(file);
 
 		return (blob, world);
 	}

@@ -38,7 +38,7 @@ public partial class SmallEnemy : Area2D, IEnemy
 	public override void _Ready()
 	{
 		sprite = GetNode<Sprite2D>("Sprite2D");
-		CoinScene = GD.Load<PackedScene>("res://scenes/coin.tscn");
+		CoinScene = GD.Load<PackedScene>("res://scenes/objects/coin.tscn");
 
 		foreach (Node2D child in GetChildren())
 		{
@@ -114,7 +114,7 @@ public partial class SmallEnemy : Area2D, IEnemy
 		playAnimation(AnimationSpriteSheet.Hurt);
 		processAI = false;
 		GetTree().CreateTimer(0.2).Timeout += () => processAI = true;
-		if (health < 0)
+		if (health <= 0)
 		{
 			// TODO: remember which enemies died
 			var coin = CoinScene.Instantiate<Coin>();

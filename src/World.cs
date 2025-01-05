@@ -67,12 +67,18 @@ public partial class World : Node2D
 			levelPath = Haze.worldData.levelPath;
 			startDoor = 0;
 			blob.maxHealth = Haze.blobData.maxHealth;
+			blob.health = blob.maxHealth;
+			blob.takeDamage(0);
 			blob.coins = Haze.blobData.coins;
+			blob.hasDoubleJump = Haze.blobData.hasDoubleJump;
+			blob.damage = Haze.blobData.damage;
 		}
 
 		currentLevel = createLevel(levelPath, startDoor);
 		levelEnteredFrom = startDoor;
 		AddChild(currentLevel);
+
+		Haze.worldData.levelPath = levelPath;
 	}
 
 	Level createLevel(String levelPath, int doorId)
