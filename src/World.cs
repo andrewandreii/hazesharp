@@ -10,6 +10,7 @@ public partial class World : Node2D
 	public int startDoor = 2;
 
 	public Level currentLevel;
+	public int levelEnteredFrom;
 	public Blob blob;
 	public BlobCam blobCam;
 
@@ -31,6 +32,8 @@ public partial class World : Node2D
 		{
 			return;
 		}
+
+		levelEnteredFrom = doorId;
 
 		uint layer = blob.CollisionLayer;
 		blob.CollisionLayer = 0;
@@ -60,6 +63,7 @@ public partial class World : Node2D
 		blobCam = GetNode<BlobCam>("BlobCam");
 
 		currentLevel = createLevel(levelPath, startDoor);
+		levelEnteredFrom = startDoor;
 		AddChild(currentLevel);
 	}
 
@@ -70,14 +74,18 @@ public partial class World : Node2D
 
 		level.Ready += () =>
 		{
-			Vector2 start, direction;
-			(start, direction) = currentLevel.getRoomEnterWalk(doorId, 16);
-			GD.Print($"player from {start} to {direction}");
-			blob.Position = start + 17 * direction;
 			setCameraLimits();
+			restartLevel();
 		};
 
 		return level;
+	}
+
+	public void restartLevel()
+	{
+		Vector2 start, direction;
+		(start, direction) = currentLevel.getRoomEnterWalk(levelEnteredFrom, 16);
+		blob.Position = start + 17 * direction;
 	}
 
 	void setCameraLimits()

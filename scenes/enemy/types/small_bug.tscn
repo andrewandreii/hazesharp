@@ -1,56 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://cphut3r52unw6"]
+[gd_scene load_steps=6 format=3 uid="uid://cphut3r52unw6"]
 
-[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_exlen"]
+[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/small_enemy.tscn" id="1_exlen"]
 [ext_resource type="Script" uid="uid://cyvjcd6lkc04u" path="res://src/enemy/EnemyType.cs" id="2_mkgcp"]
 [ext_resource type="PackedScene" uid="uid://dsynrpsfqqfim" path="res://scenes/enemy/components/bug_patrol_ai.tscn" id="2_rj7ft"]
 
-[sub_resource type="CSharpScript" id="CSharpScript_rj7ft"]
-script/source = "using Godot;
-using System;
-
-[GlobalClass]
-public partial class EnemyType : Resource
-{
-	public enum EnemySize
-	{
-		Small, Big
-	};
-
-	[Export]
-	public int health;
-
-	[Export]
-	public EnemySize size;
-
-	[Export]
-	public int whichRow;
-
-	[Export]
-	public Resource collision;
-
-	[Export]
-	public int animationFrameCountTo = 7;
-
-	public EnemyType() { }
-}
-"
-
-[sub_resource type="Resource" id="Resource_mkgcp"]
+[sub_resource type="Resource" id="Resource_rj7ft"]
 script = ExtResource("2_mkgcp")
-health = 17
+health = 20
 unkillable = false
 size = 0
 whichRow = 0
 animationFrameCountTo = 7
-coinDropRange = Vector2i(5, 10)
-metadata/_custom_type_script = SubResource("CSharpScript_rj7ft")
+coinDropRange = Vector2i(10, 15)
+metadata/_custom_type_script = ExtResource("2_mkgcp")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rj7ft"]
 radius = 2.0
 height = 12.0
 
 [node name="SmallBugEnemy" instance=ExtResource("1_exlen")]
-type = SubResource("Resource_mkgcp")
+Type = SubResource("Resource_rj7ft")
 
 [node name="HitBox" parent="." index="1"]
 shape = SubResource("CapsuleShape2D_rj7ft")

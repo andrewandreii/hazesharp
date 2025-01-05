@@ -3,25 +3,26 @@ using System;
 
 public partial class Blob : CharacterBody2D
 {
-	public const float Speed = 40.0f;
-	public const float JumpVelocity = -435.0f;
-	public const float MaxNormalSpeed = 200.0f;
-	public const float MaxSpeed = 400.0f;
-	public const float MaxFallSpeed = 400.0f;
+	public enum WalkType
+	{
+		Normal, Boosted, Slow
+	};
 
 	[Signal]
 	public delegate void healthUpdatedEventHandler(int health);
 	[Signal]
 	public delegate void coinsUpdatedEventHandler(int amount);
 
+	public const float Accel = 40.0f;
+	public const float JumpVelocity = -435.0f;
+	public const float MaxNormalSpeed = 200.0f;
+	public const float MaxSpeed = 400.0f;
+	public const float MaxFallSpeed = 400.0f;
+
 	public bool isDrilling = false;
 	public float drillGravityBoost = 1.4f;
 	public float allowedSpeed = MaxNormalSpeed;
 	public float speedBuff = 1.0f;
-	public enum WalkType
-	{
-		Normal, Boosted, Slow
-	};
 	public WalkType currentWalk = WalkType.Normal;
 	public WalkType CurrentWalk
 	{
@@ -56,12 +57,12 @@ public partial class Blob : CharacterBody2D
 	public Sprite2D sprite;
 	public RayCast2D leftRay, rightRay;
 	public Timer iframeTimer;
+	public IInteractable interactable;
 
 	public int maxHealth = 5;
 	public int health = 5;
 	public uint coins = 0;
-
-	public Node2D interactible;
+	public uint damage = 7;
 
 	public override void _Ready()
 	{
@@ -70,7 +71,6 @@ public partial class Blob : CharacterBody2D
 		leftRay = GetNode<RayCast2D>("LeftRayCast2D");
 		rightRay = GetNode<RayCast2D>("RightRayCast2D");
 		iframeTimer = GetNode<Timer>("IFrameTimer");
-		/*Engine.TimeScale = 0.2;*/
 	}
 
 	public override void _Input(InputEvent ev)
@@ -98,13 +98,9 @@ public partial class Blob : CharacterBody2D
 			}
 		}
 
-		if (ev.IsActionPressed("interact") && interactible is not null)
+		if (ev.IsActionPressed("interact") && interactable is not null)
 		{
-			if (interactible.Name.Equals("SaveBench"))
-			{
-				SaveSystem.saveToSlot(0);
-				health = maxHealth;
-			}
+			interactable.use();
 		}
 	}
 
@@ -124,7 +120,6 @@ public partial class Blob : CharacterBody2D
 			{
 				if (!isDrilling)
 				{
-					/*anim.Play("attack");*/
 					anim.Play("attack_loop");
 				}
 				isDrilling = true;
@@ -150,7 +145,7 @@ public partial class Blob : CharacterBody2D
 		float direction = Input.GetAxis("left", "right");
 		if (direction != 0.0f)
 		{
-			velocity.X += direction * Speed * speedBuff;
+			velocity.X += direction * Accel * speedBuff;
 			velocity.X = Mathf.Clamp(velocity.X, -allowedSpeed, allowedSpeed);
 			velocity.X *= !IsOnFloor() ? 1.1f : 1.0f;
 			sprite.FlipH = direction < 0;
@@ -169,7 +164,7 @@ public partial class Blob : CharacterBody2D
 		else
 		{
 			currentWalk = WalkType.Normal;
-			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			velocity.X = Mathf.MoveToward(Velocity.X, 0, Accel);
 			if (velocity == Vector2.Zero)
 			{
 				anim.Play("idle");
@@ -191,7 +186,7 @@ public partial class Blob : CharacterBody2D
 
 	public void onDrillHitTarget(Node2D body)
 	{
-		if (body is Enemy enemy)
+		if (body is IEnemy enemy)
 		{
 			enemy.takeDamage(7);
 			Velocity = new Vector2(Velocity.X, JumpVelocity);
@@ -223,6 +218,25 @@ public partial class Blob : CharacterBody2D
 
 	public void onNewInteract(Area2D newInteract)
 	{
-		interactible = newInteract;
+		if (newInteract is IInteractable interactable)
+		{
+			this.interactable = interactable;
+			interactable.select();
+		}
+	}
+
+	public void onInteractLeft(Area2D delInteract)
+	{
+		if (delInteract is IInteractable interactable)
+		{
+			interactable.deselect();
+			this.interactable = null;
+		}
+	}
+
+	public void onDeathToHazard(Node2D body)
+	{
+		takeDamage(1);
+		Haze.World.restartLevel();
 	}
 }

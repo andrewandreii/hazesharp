@@ -1,0 +1,39 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0qber6neo0em"]
+
+[ext_resource type="Script" uid="uid://c6lu7d5jkc01n" path="res://src/enemy/BossEnemy1.cs" id="1_31on2"]
+[ext_resource type="Texture2D" uid="uid://c2nin1wcfeayx" path="res://art/boss.png" id="1_nukgc"]
+[ext_resource type="Script" uid="uid://cyvjcd6lkc04u" path="res://src/enemy/EnemyType.cs" id="2_m1r5l"]
+[ext_resource type="PackedScene" uid="uid://dsynrpsfqqfim" path="res://scenes/enemy/components/bug_patrol_ai.tscn" id="3_6muw8"]
+
+[sub_resource type="Resource" id="Resource_8r5u8"]
+script = ExtResource("2_m1r5l")
+health = 200
+unkillable = false
+size = 1
+whichRow = 0
+animationFrameCountTo = 7
+coinDropRange = Vector2i(0, 0)
+metadata/_custom_type_script = ExtResource("2_m1r5l")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nukgc"]
+radius = 19.4059
+height = 56.0
+
+[node name="BossEnemy1" type="Area2D"]
+collision_layer = 4
+script = ExtResource("1_31on2")
+Type = SubResource("Resource_8r5u8")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_nukgc")
+hframes = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 4)
+rotation = 0.174533
+shape = SubResource("CapsuleShape2D_nukgc")
+
+[node name="BugPatrolAI" parent="." instance=ExtResource("3_6muw8")]
+speed = 140.0
+
+[connection signal="body_entered" from="." to="." method="onPlayerHit"]

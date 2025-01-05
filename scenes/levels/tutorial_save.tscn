@@ -39,6 +39,7 @@ CollisionSize = Vector2(64, 20)
 
 [node name="Door3" parent="Doors" instance=ExtResource("2_e3qij")]
 position = Vector2(534, 136)
+LevelPath = "uid://2dkaokov8yq3"
 EnterDirection = Vector2(1, 0)
 collisionSize = Vector2(20, 48)
 CollisionSize = Vector2(20, 48)

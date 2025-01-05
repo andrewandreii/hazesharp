@@ -1,16 +1,16 @@
 using Godot;
 using System;
 
-public partial class Enemy : Area2D
+public partial class SmallEnemy : Area2D, IEnemy
 {
 	public static PackedScene CoinScene;
 
 	[Export]
-	public EnemyType type;
+	public EnemyType Type { get; set; }
 
 	public int health;
 
-	IAI enemyAI;
+	public IAI enemyAI;
 	IAI.AIState previousState;
 
 	public Sprite2D sprite;
@@ -28,7 +28,6 @@ public partial class Enemy : Area2D
 		{
 			if (blob.isDrilling && blob.GlobalPosition.Y < GlobalPosition.Y)
 			{
-				GD.Print("cannot attac");
 				return;
 			}
 
@@ -50,7 +49,7 @@ public partial class Enemy : Area2D
 			}
 		}
 
-		health = type.health;
+		health = Type.health;
 	}
 
 	bool processAI = true;
@@ -89,22 +88,22 @@ public partial class Enemy : Area2D
 		currentAnimation = animation;
 
 		frameTimer = 0;
-		sprite.Frame = type.whichRow * sprite.Hframes + (int)animation * 2;
+		sprite.Frame = Type.whichRow * sprite.Hframes + (int)animation * 2;
 	}
 
 	void continueAnimation()
 	{
 		++frameTimer;
-		if (frameTimer > type.animationFrameCountTo)
+		if (frameTimer > Type.animationFrameCountTo)
 		{
 			frameTimer = 0;
-			sprite.Frame = type.whichRow * sprite.Hframes - (sprite.Frame % 2 - 1) + (int)currentAnimation * 2;
+			sprite.Frame = Type.whichRow * sprite.Hframes - (sprite.Frame % 2 - 1) + (int)currentAnimation * 2;
 		}
 	}
 
 	public void takeDamage(int amount)
 	{
-		if (type.unkillable)
+		if (Type.unkillable)
 		{
 			return;
 		}
@@ -119,7 +118,7 @@ public partial class Enemy : Area2D
 		{
 			// TODO: remember which enemies died
 			var coin = CoinScene.Instantiate<Coin>();
-			coin.value = (uint)GD.RandRange(type.coinDropRange.X, type.coinDropRange.Y);
+			coin.value = (uint)GD.RandRange(Type.coinDropRange.X, Type.coinDropRange.Y);
 			coin.Position = Position;
 			Haze.World.currentLevel.CallDeferred("add_child", coin);
 			QueueFree();

@@ -1,16 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://61x80itnx5vc"]
 
-[ext_resource type="Script" uid="uid://b6t1uttoggs7" path="res://src/enemy/Enemy.cs" id="1_a3pup"]
-[ext_resource type="Texture2D" uid="uid://yyibmeie8c54" path="res://art/enemies.png" id="2_40wdo"]
+[ext_resource type="Script" uid="uid://6yf1eelm7idj" path="res://src/enemy/SmallEnemy.cs" id="1_l72kb"]
+[ext_resource type="Texture2D" uid="uid://yyibmeie8c54" path="res://art/enemies.png" id="2_mkodt"]
 
-[node name="Enemy2" type="Area2D" groups=["Enemy"]]
+[node name="SmallEnemy" type="Area2D" groups=["Enemy"]]
 position = Vector2(0, 8)
 collision_layer = 4
-script = ExtResource("1_a3pup")
+script = ExtResource("1_l72kb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -8)
-texture = ExtResource("2_40wdo")
+texture = ExtResource("2_mkodt")
 hframes = 8
 vframes = 8
 

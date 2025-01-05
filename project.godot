@@ -86,6 +86,7 @@ interact={
 2d_physics/layer_2="Tilemap"
 2d_physics/layer_3="Enemies"
 2d_physics/layer_6="Interactible"
+2d_physics/layer_7="Hazards"
 
 [physics]
 

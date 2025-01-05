@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c5u62dd2tk2td"]
+[gd_scene load_steps=19 format=3 uid="uid://c5u62dd2tk2td"]
 
 [ext_resource type="Texture2D" uid="uid://dyr0314y50axp" path="res://art/blob.png" id="1_4cf5j"]
 [ext_resource type="Script" uid="uid://j38p05f225br" path="res://src/Blob.cs" id="1_14eig"]
@@ -11,6 +11,10 @@ radius = 5.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8gt5w"]
 size = Vector2(20, 10)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8gt5w"]
+radius = 2.0
+height = 12.0
 
 [sub_resource type="Animation" id="Animation_ur7dl"]
 length = 0.001
@@ -554,6 +558,7 @@ hframes = 4
 vframes = 8
 
 [node name="DrillHitbox" type="Area2D" parent="."]
+visible = false
 position = Vector2(0, -3)
 collision_layer = 0
 collision_mask = 4
@@ -565,6 +570,7 @@ position = Vector2(0, -2)
 shape = SubResource("CircleShape2D_7crg0")
 
 [node name="InteractBox" type="Area2D" parent="."]
+visible = false
 collision_layer = 0
 collision_mask = 32
 monitorable = false
@@ -573,7 +579,16 @@ monitorable = false
 position = Vector2(0, -5)
 shape = SubResource("RectangleShape2D_8gt5w")
 
+[node name="HurtBox" type="Area2D" parent="."]
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -3)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8gt5w")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, -4)
 rotation = 1.5708
 shape = ExtResource("3_17po2")
@@ -601,3 +616,5 @@ one_shot = true
 
 [connection signal="area_entered" from="DrillHitbox" to="." method="onDrillHitTarget"]
 [connection signal="area_entered" from="InteractBox" to="." method="onNewInteract"]
+[connection signal="area_exited" from="InteractBox" to="." method="onInteractLeft"]
+[connection signal="body_entered" from="HurtBox" to="." method="onDeathToHazard"]

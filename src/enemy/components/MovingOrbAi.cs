@@ -16,6 +16,8 @@ public partial class MovingOrbAi : Node2D, IAI
 	public float speed;
 	[Export]
 	public float waitTime = 0.7f;
+	[Export]
+	public int maxSearchDistance = 10;
 
 	public Vector2I cellOffset;
 
@@ -51,18 +53,18 @@ public partial class MovingOrbAi : Node2D, IAI
 
 	public Vector2I findTargetBlock()
 	{
-		Vector2I pos = level.LocalToMap(GlobalPosition);
+		Vector2I pos = level.LocalToMap(GlobalPosition - cellOffset);
 
 		int dirY = (int)dir.Y;
 		pos.Y += dirY;
-		for (int i = 0; i < 10; ++i, pos.Y += dirY)
+		for (int i = 0; i < maxSearchDistance; ++i, pos.Y += dirY)
 		{
 			if (level.GetCellTileData(pos) is not null)
 			{
-				pos.Y -= dirY;
 				break;
 			}
 		}
+		pos.Y -= dirY;
 
 		return pos;
 	}

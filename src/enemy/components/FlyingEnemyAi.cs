@@ -53,6 +53,11 @@ public partial class FlyingEnemyAi : Node2D, IAI
 		}
 	}
 
+	public void chasePlayer()
+	{
+		chasing = true;
+	}
+
 	public void spawnProjectile()
 	{
 		var proj = proj_scene.Instantiate<EnemyProjectile>();

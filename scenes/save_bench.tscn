@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://fx60ee8wjw2u"]
+[gd_scene load_steps=8 format=3 uid="uid://fx60ee8wjw2u"]
 
+[ext_resource type="Script" uid="uid://dykji4qrg2c03" path="res://src/SaveBench.cs" id="1_66x46"]
 [ext_resource type="Texture2D" uid="uid://c3yfib28bcjpp" path="res://art/tileset.png" id="1_qd7ga"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qd7ga"]
@@ -7,7 +8,7 @@ size = Vector2(44, 18)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_at3m4"]
 atlas = ExtResource("1_qd7ga")
-region = Rect2(0, 96, 48, 16)
+region = Rect2(0, 96, 96, 16)
 
 [sub_resource type="Animation" id="Animation_at3m4"]
 length = 0.001
@@ -47,10 +48,11 @@ _data = {
 &"activate": SubResource("Animation_qd7ga")
 }
 
-[node name="SaveTotem" type="Area2D"]
+[node name="SaveBench" type="Area2D"]
 collision_layer = 32
 collision_mask = 0
 monitoring = false
+script = ExtResource("1_66x46")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-1, -1)
@@ -58,6 +60,7 @@ shape = SubResource("RectangleShape2D_qd7ga")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_at3m4")
+hframes = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

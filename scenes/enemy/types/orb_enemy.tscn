@@ -1,24 +1,24 @@
 [gd_scene load_steps=6 format=3 uid="uid://pgmqh3y38tgp"]
 
-[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/enemy.tscn" id="1_glbq4"]
+[ext_resource type="PackedScene" uid="uid://61x80itnx5vc" path="res://scenes/enemy/small_enemy.tscn" id="1_glbq4"]
 [ext_resource type="Script" uid="uid://cyvjcd6lkc04u" path="res://src/enemy/EnemyType.cs" id="2_25vsw"]
 [ext_resource type="PackedScene" uid="uid://c7lei6j037bt6" path="res://scenes/enemy/components/moving_orb_ai.tscn" id="3_25vsw"]
 
-[sub_resource type="Resource" id="Resource_2h2su"]
+[sub_resource type="Resource" id="Resource_25vsw"]
 script = ExtResource("2_25vsw")
-health = 20
+health = 0
 unkillable = true
 size = 0
 whichRow = 1
 animationFrameCountTo = 7
-coinDropRange = Vector2i(1, 5)
+coinDropRange = Vector2i(0, 0)
 metadata/_custom_type_script = ExtResource("2_25vsw")
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_glbq4"]
 radius = 4.0
 
 [node name="OrbEnemy" instance=ExtResource("1_glbq4")]
-type = SubResource("Resource_2h2su")
+Type = SubResource("Resource_25vsw")
 
 [node name="Sprite2D" parent="." index="0"]
 frame = 8

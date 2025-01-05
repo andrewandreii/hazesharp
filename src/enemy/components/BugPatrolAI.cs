@@ -18,18 +18,18 @@ public partial class BugPatrolAI : Node2D, IAI
 
 	public override void _Ready()
 	{
-		Enemy parent = GetParent<Enemy>();
+		IEnemy parent = GetParent<IEnemy>();
 		ray = GetNode<RayCast2D>("RayCast2D");
 
 		state = IAI.AIState.MovingX;
 
-		switch (parent.type.size)
+		switch (parent.Type.size)
 		{
 			case EnemyType.EnemySize.Small:
 				ray.Position = new Vector2(-11, -6);
 				break;
 			case EnemyType.EnemySize.Big:
-				ray.Position = new Vector2(-11, -6);
+				ray.Position = new Vector2(-32, 27);
 				break;
 		}
 	}
