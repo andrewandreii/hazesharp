@@ -9,6 +9,7 @@ radius = 8.0
 [node name="PowerUp" type="Area2D"]
 collision_layer = 0
 script = ExtResource("1_xlsxe")
+type = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_422v7")
