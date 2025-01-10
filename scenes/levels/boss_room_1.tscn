@@ -73,6 +73,7 @@ position = Vector2(388, 352)
 
 [node name="PowerUp" parent="." instance=ExtResource("6_8crx1")]
 position = Vector2(737, -220)
+type = 0
 
 [node name="PowerUp2" parent="." instance=ExtResource("6_8crx1")]
 position = Vector2(415, 228)

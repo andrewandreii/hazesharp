@@ -24,7 +24,7 @@ tile_set = ExtResource("3_vsrli")
 
 [node name="PowerUp" parent="." instance=ExtResource("4_vsrli")]
 position = Vector2(-13, 131)
-type = 1
+type = 0
 
 [node name="Doors" type="Node2D" parent="."]
 
@@ -37,5 +37,5 @@ collisionSize = Vector2(20, 32)
 CollisionSize = Vector2(20, 32)
 
 [connection signal="body_entered" from="Enemies/Enemy" to="Enemies/Enemy" method="onPlayerTouch"]
-[connection signal="body_entered" from="Enemies/@Area2D@27554" to="Enemies/@Area2D@27554" method="onPlayerTouch"]
-[connection signal="body_entered" from="Enemies/@Area2D@27555" to="Enemies/@Area2D@27555" method="onPlayerTouch"]
+[connection signal="body_entered" from="Enemies/@Area2D@22024" to="Enemies/@Area2D@22024" method="onPlayerTouch"]
+[connection signal="body_entered" from="Enemies/@Area2D@22025" to="Enemies/@Area2D@22025" method="onPlayerTouch"]

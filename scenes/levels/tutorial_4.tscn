@@ -43,8 +43,3 @@ LevelPath = "uid://c6esgff0s735o"
 EnterDirection = Vector2(-1, 0)
 collisionSize = Vector2(20, 32)
 CollisionSize = Vector2(20, 32)
-
-[connection signal="body_entered" from="Enemies/Enemy" to="Enemies/Enemy" method="onPlayerTouch"]
-[connection signal="body_entered" from="Enemies/SmallBugEnemy" to="Enemies/SmallBugEnemy" method="onPlayerTouch"]
-[connection signal="body_entered" from="Enemies/@Area2D@26216" to="Enemies/@Area2D@26216" method="onPlayerTouch"]
-[connection signal="body_entered" from="Enemies/@Area2D@26217" to="Enemies/@Area2D@26217" method="onPlayerTouch"]
